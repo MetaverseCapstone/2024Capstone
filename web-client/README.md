@@ -1,3 +1,15 @@
+# 웹 클라이언트 가이드
+3000 포트에서 웹 클라이언트를 실행할 수 있음
+로컬의 경우, localhost:3000 에서 확인 가능
+
+## 실행방법
+cd \web-client\
+npm run dev
+
+node 버전은 v20.11.0로 권장
+
+## Nextjs 기본 README
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
