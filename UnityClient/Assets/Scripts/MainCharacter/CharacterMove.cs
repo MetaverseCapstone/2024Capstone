@@ -1,39 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class CharacterMove : MonoBehaviour
 {
-
-    public Transform cameraTransform;
     public CharacterController characterController;
 
-    public float moveSpeed = 10f;
-    public float jumpSpeed = 10f;
-    public float runSpeed = 2f;
+    public float sensitivity = 200f; // 마우스 민감도
+    public float moveSpeed = 10f; // 기본 이동속도
+    public float jumpSpeed = 10f; // 점프 속도
+    public float runSpeed = 2f; // 달리기 이동속도 배수
+    public float gravity = -20f; // 중력
 
-    public float gravity = -20f;
 
     float yVelocity = 0;
+    float rotationX;
 
     void Start()
     {
-        
     }
     void Update()
+    {
+        CharacterMoving();
+        CharacterRotationX();
+    }
+
+
+    void CharacterMoving()
     {
         float input_h = Input.GetAxis("Horizontal"); // A, D키 입력
         float input_v = Input.GetAxis("Vertical"); // W, S키 입력
 
         Vector3 moveDirection = new Vector3(input_h, 0, input_v);
-        moveDirection = cameraTransform.TransformDirection(moveDirection);
-        
+        moveDirection = transform.TransformDirection(moveDirection);
+
         moveDirection *= moveSpeed;
         if (Input.GetKey(KeyCode.LeftShift)) // 좌 쉬프트 = 달리기
         {
             moveDirection *= runSpeed;
         }
-   
+
         if (characterController.isGrounded) // 캐릭터가 땅에 붙어있을 때
         {
             yVelocity = 0;
@@ -49,6 +54,15 @@ public class NewBehaviourScript : MonoBehaviour
         moveDirection.y = yVelocity;
 
         characterController.Move(moveDirection * Time.deltaTime);
-
     }
+
+    void CharacterRotationX()
+    {
+        float mouseX = Input.GetAxis("Mouse X");
+
+        rotationX += mouseX * sensitivity * Time.deltaTime;
+
+        this.transform.eulerAngles = new Vector3(0, rotationX, 0);
+    }
+
 }
