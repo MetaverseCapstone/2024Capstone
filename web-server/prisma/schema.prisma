@@ -6,6 +6,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+// 로그인 타입
+enum LoginType {
+  LOCAL
+  ADMIN
+}
+
+// 유저 등급 타입
+enum UserType {
+  GENERAL
+  ADMIN
+  MANAGER
+}
+
+// 유저
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  loginId     String // 로그인 ID (SNS 토큰)
+  loginPw     String?   @db.Text // 로그인 PW 
+  username    String
+  loginType   LoginType
+  userType    UserType
+  nickname    String
+  isDisable   Boolean   @default(false)
+
+  @@unique([loginType, loginId], name: "loginUnique")
 }

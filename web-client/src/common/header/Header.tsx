@@ -32,6 +32,7 @@ const Header = ({
           zIndex: transparent ? 10 : 0,
           maxWidth: appContentWidth,
           margin: '0 auto',
+          position:'relative',
           ...grayColor
         }}>
         <Flex
@@ -47,9 +48,14 @@ const Header = ({
 
           <Flex
             css={{
-              alignItems: 'center',
-              flexShrink: 1,
-              flexGrow: 1,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+  
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%,-50%)',
             }}>
             {CenterComponent || <Flex css={{ width: 24, height: 24 }} />}
           </Flex>

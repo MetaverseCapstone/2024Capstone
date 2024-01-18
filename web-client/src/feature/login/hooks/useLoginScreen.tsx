@@ -1,3 +1,4 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -22,7 +23,7 @@ interface HookMember {
 }
 
 export function useLoginScreen(): HookMember {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch<any>>();
   const router = useRouter();
 
   const token = useTypedSelector((state) => state.account.token);
@@ -54,7 +55,7 @@ export function useLoginScreen(): HookMember {
 
   const onClickLogin = () => {
     // id,pw를 가져오고 슬라이스의 로그인으로 넘김
-    // dispatch(accountSlice.login(loginData));
+    dispatch(accountSlice.login(loginData));
   };
 
   return {
