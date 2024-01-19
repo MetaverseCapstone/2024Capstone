@@ -16,12 +16,7 @@ import (
 // 	"simlab417.service.": "192.168.0.95",
 // }
 
-const (
-	host     = "172.17.134.196"
-	port     = "3390"
-	database = "dns"
-	user     = "dnsmanager"
-	password = "1111"
+
 )
 
 var connectingString = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, database)
