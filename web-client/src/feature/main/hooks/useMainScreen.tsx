@@ -14,10 +14,20 @@ interface HookMember {
 }
 
 export function useMainScreen(): HookMember {
-    const dispatch = useDispatch<Dispatch<any>>();
-
     const user = useTypedSelector((state) => state.account.user);
     const router = useRouter();
+
+    const dispatch = useDispatch<Dispatch<any>>();
+
+    useEffect(() => {
+        let sessionUserData = sessionStorage.getItem('userData');
+        if (sessionUserData) {
+          let userData: { user: accountSlice.User; accessToken: string } =
+            JSON.parse(sessionUserData);
+            
+            dispatch(accountSlice.saveUserDataInSession(userData));
+        }
+    }, []);
 
     const onClickSignin = () => {
         router.push('/login');

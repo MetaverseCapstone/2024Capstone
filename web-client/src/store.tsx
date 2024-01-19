@@ -11,11 +11,13 @@ import {
 import { Store, Action, combineReducers } from 'redux';
 import { examplesApi } from './api/examplesApi';
 import accountSlice from './data/accountSlice';
+import { usersApi } from './api/usersApi';
 
 const initialState = {};
 
 const reducer = combineReducers({
     [examplesApi.reducerPath]: examplesApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
     account: accountSlice,
 });
 
@@ -28,6 +30,7 @@ function initStore(preloadedState = initialState): Store<RootState> {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
       .concat(examplesApi.middleware)
+      .concat(usersApi.middleware)
     ,
     devTools: process.env.NODE_ENV !== 'production',
   });

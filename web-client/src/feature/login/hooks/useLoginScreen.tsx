@@ -26,7 +26,7 @@ export function useLoginScreen(): HookMember {
   const dispatch = useDispatch<Dispatch<any>>();
   const router = useRouter();
 
-  const token = useTypedSelector((state) => state.account.token);
+  const userType = useTypedSelector((state) => state.account.user?.userType);
 
   const {data:testServer} = useGetTestQuery();
 
@@ -42,10 +42,12 @@ export function useLoginScreen(): HookMember {
   }, [testServer]);
 
   useEffect(() => {
-    if (token) {
+    if (userType === 'ADMIN') {
+      router.push('/admin');
+    } else if(userType) {
       router.push('/');
     }
-  }, [token]);
+  }, [userType]);
 
   const onChangeLoginData = (type: 'loginId' | 'loginPw', value: string) => {
     let clone = { ...loginData };
