@@ -117,12 +117,12 @@ export function useAdminUserCreateScreen(): hookMember {
     // 비밀번호 특수문자 숫자 등 검사
     let pw = password;
 
-    if(pw.length < 8 || pw.length > 16) {
+    if(pw.length < 4) {
       setModalContent(
         <div css={{ textAlign: 'center' }}>
           <span css={{ fontWeight: 'bold' }}>비밀번호</span>
           <br />
-          8자 이상, 16자 이하로 작성해주세요.
+          4자 이상 작성해주세요.
         </div>,
       );
       setModalDisplayState('flex');
@@ -134,12 +134,12 @@ export function useAdminUserCreateScreen(): hookMember {
 
     pw = repassword;
 
-    if(pw.length < 8 || pw.length > 16) {
+    if(pw.length < 4) {
       setModalContent(
         <div css={{ textAlign: 'center' }}>
           <span css={{ fontWeight: 'bold' }}>비밀번호 확인</span>
           <br />
-          8자 이상, 16자 이하로 작성해주세요.
+          4자 이상 작성해주세요.
         </div>,
       );
       setModalDisplayState('flex');
