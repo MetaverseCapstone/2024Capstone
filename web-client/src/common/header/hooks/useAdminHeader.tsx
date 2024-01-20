@@ -76,7 +76,7 @@ export function useAdminHeader(): hookMember {
         router.push('/admin/world/manage');
       } else if (item === '재화관리') {
         router.push('/admin/goods/payment');
-      } else if (item === '회원관리') {
+      } else if (item === '유저관리') {
         router.push('/admin/user');
       }
     },

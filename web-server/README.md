@@ -6,6 +6,9 @@
 ## 웹 서버 실행하기
 
 cd \web-server\
+npm install #설정된 pacakge 다운
+npx prisma migrate dev --name HISTORY-NAME # 변경된 데이터베이스 스키마 있을 시 동기화해야 함
+npx prisma db push # 생성된 데이터베이스가 없을 시, .env 정보에 따라 DB를 생성해 줌.
 npm run start:dev
 
 web-server 디렉토리 상에 .env 파일 생성(.gitignore에 의해 git에 없으므로 사용자가 생성해야 함)

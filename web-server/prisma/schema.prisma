@@ -36,5 +36,23 @@ model User {
   nickname    String
   isDisable   Boolean   @default(false)
 
+  AssetCategory    AssetCategory[]
+
   @@unique([loginType, loginId], name: "loginUnique")
+}
+
+// 에셋 카테고리
+model AssetCategory {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+
+  categoryId    Int             @unique
+  categoryName  String
+
+  parentId      Int?
+  AssetCategory AssetCategory?  @relation("ChildAssetCategory",fields: [parentId], references: [id])
+  childCategory AssetCategory[] @relation("ChildAssetCategory")
+
+  User          User?           @relation(fields: [userId], references: [id])
+  userId        Int?
 }

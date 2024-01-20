@@ -12,6 +12,7 @@ import { JwtAuthGuard } from './auth/jwt.guard';
 import { UsersModule } from './users/users.module';
 import { GlobalModule } from './global/global.module';
 import { AuthModule } from './auth/auth.module';
+import { AssetcategorysModule } from './assetcategorys/assetcategorys.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
     ExamplesModule,
     UsersModule,
     AuthModule,
+    AssetcategorysModule,
   ],
   controllers: [AppController],
   providers: [
