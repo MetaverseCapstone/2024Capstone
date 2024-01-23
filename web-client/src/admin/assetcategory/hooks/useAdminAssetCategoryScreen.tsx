@@ -29,6 +29,8 @@ interface hookMember {
     [key: number]: boolean;
   };
 
+  modifiedId: number | undefined;
+
   onClickRemoveUser: (id: number) => void;
   onClickCheckItem: (notice: AssetCategory) => void;
   onClickCheckAll: () => void;
@@ -41,9 +43,12 @@ interface hookMember {
 
   onClickCreateCategory: (name: string, code: string, parentId?: number) => void;
 
+  onClickModifyCategory: (id: number, name: string, code: string) => void;
+
   searchCategoryById: (id: number, childTable: AssetCategoryClass[]) => AssetCategoryClass | undefined;
 
   onClickUnfoldCategory: (parentCategory: AssetCategoryClass, isUnfold: boolean) => void;
+  onClickToModify: (id?: number, categoryName?: string, categoryCode?: string) => void;
 
 }
 
@@ -106,6 +111,8 @@ export function useAdminAssetCategoryScreen(): hookMember {
         // setCategoryData(result.data);
         setTable(categoryData.map(item => new AssetCategoryClass(item)));
         setTotalCount(result.count);
+        await refetchCurrentTable();
+        setTable(table);
       }
     }
   }
@@ -173,14 +180,38 @@ export function useAdminAssetCategoryScreen(): hookMember {
     const result: any = await createAssetCategory({
       categoryCode: code,
       categoryName: name,
-      parentId: parentId
+      parentId: parentId,
+      userId: adminId
     });
 
     if (!result?.data) {
-      alert(result.error?.data);
+      alert(result.error?.data.message);
+    } else {
+      SetModifiedId(undefined);
+      if (page) {
+        changePageAndSearchCategory(page);
+      }
     }
+  }
 
-    if (page) changePageAndSearchCategory(page);
+  const onClickModifyCategory = async (id: number, name: string, code: string) => {
+    const result: any = await updateAssetCategory({
+      id,
+      body: {
+        categoryCode: code,
+        categoryName: name,
+        userId: adminId
+      }
+    });
+
+    if (!result?.data) {
+      alert(result.error?.data.message);
+    } else {
+      SetModifiedId(undefined);
+      if (page) {
+        changePageAndSearchCategory(page);
+      }
+    }
   }
 
   const searchCategoryById = (id: number, childTable = table): AssetCategoryClass | undefined => {
@@ -191,14 +222,29 @@ export function useAdminAssetCategoryScreen(): hookMember {
     }
   }
 
+  const refetchCurrentTable = async (childTable = table) => {
+    if (!childTable || childTable.length == 0) return undefined;
+    for (let i = 0; i < childTable.length; i++) {
+      if(isUnfoldList[childTable[i].id] === true) {
+        await setChildCategory(childTable[i]);
+      }
+      if ((childTable[i].childCategory ?? []).length > 0) await refetchCurrentTable(childTable[i].childCategory);
+    }
+  }
+
+  const setChildCategory = async (parentCategory: AssetCategoryClass) => {
+    const result: any = await findAdminChildAssetCategory({ parentId: parentCategory.id });
+    if (result.data && result.data.length > 0) {
+      const categories = result.data as AssetCategory[];
+      parentCategory.childCategory = categories.map(item => new AssetCategoryClass(item, parentCategory));
+      // setTable(table);
+    }
+  }
+
   const onClickUnfoldCategory = async (parentCategory: AssetCategoryClass, isUnfold: boolean) => {
     if (isUnfold) {
       if (!parentCategory.childCategory) {
-        const result: any = await findAdminChildAssetCategory({ parentId: parentCategory.parentId });
-        if (result.data && result.data.length > 0) {
-          const categories = result.data as AssetCategory[];
-          parentCategory.childCategory = categories.map(item => new AssetCategoryClass(item, parentCategory));
-        }
+        await setChildCategory(parentCategory);
       }
     }
 
@@ -207,6 +253,12 @@ export function useAdminAssetCategoryScreen(): hookMember {
       [parentCategory.id]: isUnfold
     };
     setIsUnfoldList(temp);
+  }
+
+  const [modifiedId, SetModifiedId] = useState<number>();
+
+  const onClickToModify = (id?: number, categoryName = '', categoryCode = '') => {
+    SetModifiedId(id);
   }
 
   return {
@@ -230,6 +282,8 @@ export function useAdminAssetCategoryScreen(): hookMember {
 
     isUnfoldList,
 
+    modifiedId,
+
     onClickCheckItem,
     onClickCheckAll,
     onClickDeleteChecked,
@@ -251,6 +305,9 @@ export function useAdminAssetCategoryScreen(): hookMember {
 
     onClickUnfoldCategory,
     searchCategoryById,
+
+    onClickModifyCategory,
+    onClickToModify,
   };
 }
 

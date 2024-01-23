@@ -19,11 +19,6 @@ export class AssetcategorysController {
     return this.assetcategorysService.findAllAssetCategoryEnable();
   }
 
-  @Get(':id')
-  findAssetCategoryOne(@Param('id') id: string) {
-    return this.assetcategorysService.findAssetCategoryOne(+id);
-  }
-
   @Get('all')
   findAllAssetCategory() {
     return this.assetcategorysService.findAllAssetCategory();
@@ -47,16 +42,16 @@ export class AssetcategorysController {
 
   @Get('admin/child/:parentId')
   findAdminChildAssetCategory(
-    @Param('parentId') parentId: number
+    @Param('parentId') parentId: string
   ) {
-    return this.assetcategorysService.findAdminChildAssetCategory(parentId);
+    return this.assetcategorysService.findAdminChildAssetCategory(+parentId);
   }
 
   @Get('child/:parentId')
   findChildAssetCategory(
-    @Param('parentId') parentId: number
+    @Param('parentId') parentId: string
   ) {
-    return this.assetcategorysService.findChildAssetCategory(parentId);
+    return this.assetcategorysService.findChildAssetCategory(+parentId);
   }
 
   @Get('category/:code')
@@ -64,14 +59,19 @@ export class AssetcategorysController {
     return this.assetcategorysService.findAssetCategoryByCode(code);
   }
 
-  @Patch(':id')
-  updateAssetCategory(@Param('id') id: string, @Body() updateAssetcategoryDto: UpdateAssetcategoryDto) {
-    return this.assetcategorysService.updateAssetCategory(+id, updateAssetcategoryDto);
+  @Get(':id')
+  findAssetCategoryOne(@Param('id') id: string) {
+    return this.assetcategorysService.findAssetCategoryOne(+id);
   }
 
   @Patch('disable/:id')
   updateAssetCategoryDisalbe(@Param('id') id: string, @Query('isDisable') isDisable?: string) {
     return this.assetcategorysService.updateAssetCategoryDisalbe(+id, Boolean(JSON.parse(isDisable)));
+  }
+
+  @Patch(':id')
+  updateAssetCategory(@Param('id') id: string, @Body() updateAssetcategoryDto: UpdateAssetcategoryDto) {
+    return this.assetcategorysService.updateAssetCategory(+id, updateAssetcategoryDto);
   }
 
   @Delete(':id')

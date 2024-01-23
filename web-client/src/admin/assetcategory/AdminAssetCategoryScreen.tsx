@@ -4,6 +4,7 @@ import {
     ContentHeader,
     InputStyle,
     StyledButton,
+    TheadSmall,
 } from 'src/common/styledAdmin';
 import { Flex, FlexCenter, FlexRow, FlexRowCenter } from 'src/common/styledComponents';
 import AdminTable from 'src/common/table/AdminTable';
@@ -14,6 +15,7 @@ import { useAdminAssetCategoryScreen } from './hooks/useAdminAssetCategoryScreen
 import { useAssetCategoryTable } from 'src/common/table/hooks/useAssetCategoryTable';
 import Image from 'next/image';
 import { AssetCategoryClass } from 'src/api/assetcategoriesApi';
+import { AdminCreateAssetCategoryElement } from './AdminCreateAssetCategoryElement';
 
 const btnCheckBoxStyle = {
     width: 120,
@@ -38,47 +40,79 @@ const AdminAssetCategoryScreen = () => {
 
     const minWidth = 500;
 
-    const AssetCategoryElement = function (categoryList: AssetCategoryClass[]) {
+    const AssetCategoryElement = ({ categoryList, parentId }: { categoryList?: AssetCategoryClass[], parentId?: number }) => {
         {
-            categoryList.map((item, index) => {
-                // const tableCssTheme: any = tableCss ? tableCss(item) : {};
-                return (
-                    <FlexRow
-                        key={'row_' + index.toString()}
-                        css={{
-                            borderBottom: '1px solid #f5f5f5',
-                            '>div': {
-                                fontsize: 12,
-                                width: 24,
-                                height: 24,
-                                color: '#999',
-                                paddingLeft: 10,
-                            },
-                        }}>
-                        <Image
-                            src={`/image/admin/icon/arrow-${hookMember.isUnfoldList[item.id] === true ? 'down' : 'up'}-gray-500.svg`}
-                            width={16}
-                            height={16}
-                            alt="이전 버튼"
-                        />
-                        <div>{item.categoryName}</div>
-                        <div>{item.categoryCode}</div>
-                        <Image
-                            src={`/image/admin/icon/arrow-${hookMember.isUnfoldList[item.id] === true ? 'down' : 'up'}-gray-500.svg`}
-                            width={16}
-                            height={16}
-                            alt="이전 버튼"
-                        />
-                        {/* {
-                            hookMember.isUnfoldList[item.id] === true ? {
+            return <Flex>
+                {
+                    (categoryList??[]).map((item, index) => {
+                        // const tableCssTheme: any = tableCss ? tableCss(item) : {};
 
-                            } : {
+                        return (
+                            <Flex
+                                key={'row_' + index.toString()}>
+                                <FlexRow
+                                    css={{
+                                        borderBottom: '1px solid #f5f5f5',
+                                    }}>
+                                    <FlexCenter
+                                        css={{marginRight:10}}
+                                    >
+                                        <Image
+                                            css={{cursor:'pointer'}}
+                                            src={`/image/admin/icon/arrow-${hookMember.isUnfoldList[item.id] === true ? 'down' : 'up'}-gray-500.svg`}
+                                            width={20}
+                                            height={20}
+                                            alt="펼치기"
+                                            onClick={()=>{
+                                                hookMember.onClickUnfoldCategory(item,!(hookMember.isUnfoldList[item.id]))
+                                            }}
+                                        />
+                                    </FlexCenter>
 
-                            }
-                        } */}
-                    </FlexRow>
-                );
-            })
+                                    {
+                                        <AdminCreateAssetCategoryElement
+                                            modifiedId={hookMember.modifiedId}
+                                            categoryCode={item.categoryCode}
+                                            categoryName={item.categoryName}
+                                            inputAction={(name: string, code: string) => {
+                                                hookMember.onClickModifyCategory(item.id, name, code)
+                                            }}
+                                            startAction={(id) => {
+                                                hookMember.onClickToModify(id, item.categoryName, item.categoryCode)
+                                            }}
+                                            targetId={item.id}
+                                        />
+                                    }
+                                </FlexRow>
+                                {
+                                    hookMember.isUnfoldList[item.id] === true ?
+                                        <Flex
+                                            css={{
+                                                paddingLeft: 28,
+                                            }}
+                                        >
+                                            <AssetCategoryElement categoryList={item.childCategory} parentId={item.id}
+                                            />
+                                        </Flex> : undefined
+                                }
+                            </Flex>
+
+                        );
+                    }).concat(
+                        < AdminCreateAssetCategoryElement
+                            modifiedId={hookMember.modifiedId}
+                            inputAction={(name: string, code: string) => {
+                                hookMember.onClickCreateCategory(name, code, parentId)
+                            }}
+                            startAction={(id) => {
+                                hookMember.onClickToModify(id)
+                            }}
+                            targetId={parentId === undefined ? 0 : parentId + 0.1}
+                        />
+                    )
+                }
+            </Flex>
+
         }
     }
 
@@ -157,23 +191,8 @@ const AdminAssetCategoryScreen = () => {
                 }}>
             </FlexRow>
             {/* 테이블 로우 */}
-            <Flex css={{ fontSize: 14, color: '#333' }}>
-                {hookMember.table.map((item, index) => {
-                    // const tableCssTheme: any = tableCss ? tableCss(item) : {};
-                    return (
-                        <FlexRow
-                            key={'row_' + index.toString()}
-                            css={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                borderBottom: '1px solid #f5f5f5',
-                                '>div': {
-                                    padding: 10,
-                                },
-                            }}>
-                        </FlexRow>
-                    );
-                })}
+            <Flex css={{ fontSize: 14, color: '#333', paddingTop:20 }}>
+                <AssetCategoryElement categoryList={hookMember.table} />
             </Flex>
         </Flex>
     }
@@ -228,7 +247,7 @@ const AdminAssetCategoryScreen = () => {
                                     hookMember.onChangeSearchType(e.target.value);
                                 }}>
                                 {/* <option value="없음">없음</option> */}
-                                <option value="코드">닉네임</option>
+                                <option value="코드">코드</option>
                                 <option value="이름">이름</option>
                             </select>
                             <InputStyle

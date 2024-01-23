@@ -43,7 +43,7 @@ export class AssetcategorysService {
     return this.prisma.assetCategory.findMany({
       orderBy: [
         {
-          categoryCode: 'desc'
+          categoryCode: 'asc'
         }
       ]
     });
@@ -53,7 +53,7 @@ export class AssetcategorysService {
     return this.prisma.assetCategory.findMany({
       orderBy: [
         {
-          id: 'desc',
+          id: 'asc',
         }
       ],
       where: {
@@ -66,7 +66,7 @@ export class AssetcategorysService {
             isDisable: false,
           },
           orderBy: {
-            id: 'desc'
+            id: 'asc'
           }
         }
       }
@@ -91,7 +91,7 @@ export class AssetcategorysService {
     return this.prisma.assetCategory.findMany({
       orderBy: [
         {
-          id: 'desc',
+          id: 'asc',
         }
       ],
       where: {
@@ -130,15 +130,15 @@ export class AssetcategorysService {
           skip: (skip - 1) * take,
           take: take,
           orderBy: {
-            id: 'desc',
+            id: 'asc',
           },
-          include: {
-            childCategory: {
-              orderBy: {
-                id: 'desc'
-              }
-            }
-          }
+          // include: {
+          //   childCategory: {
+          //     orderBy: {
+          //       id: 'asc'
+          //     }
+          //   }
+          // }
         })
         : [];
 
@@ -148,15 +148,18 @@ export class AssetcategorysService {
   findAssetCategoryOne(id: number) {
     return this.prisma.assetCategory.findUnique({
       where: {
-        id,
+        id:id
       }
     })
   }
 
-  findAssetCategoryByCode(categoryCode: string) {
+  findAssetCategoryByCode(categoryCode: string, extendId?:number) {
     return this.prisma.assetCategory.findUnique({
       where: {
-        categoryCode
+        categoryCode,
+        NOT:{
+          id:extendId
+        }
       }
     })
   }
@@ -211,7 +214,7 @@ export class AssetcategorysService {
       //   })
 
       // } while (true)
-      const category = await this.findAssetCategoryByCode(updateAssetcategoryDto.categoryCode);
+      const category = await this.findAssetCategoryByCode(updateAssetcategoryDto.categoryCode, id);
 
       if(category) {
         throw new ForbiddenException('중복되는 카테고리 코드입니다.');

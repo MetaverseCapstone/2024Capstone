@@ -5,7 +5,7 @@ import { User } from './usersApi';
 
 export const assetCategoriesApi = createApi({
     reducerPath: 'assetcategoriesApi',
-    baseQuery: fetchCompatBaseQuery('assetcategory'),
+    baseQuery: fetchCompatBaseQuery('assetcategorys'),
     tagTypes: ['AssetCategorys'],
     endpoints: (builder) => ({
         createAssetCategory: builder.mutation<
