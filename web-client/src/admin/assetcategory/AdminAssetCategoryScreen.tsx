@@ -8,7 +8,7 @@ import {
 } from 'src/common/styledAdmin';
 import { Flex, FlexCenter, FlexRow, FlexRowCenter } from 'src/common/styledComponents';
 import AdminTable from 'src/common/table/AdminTable';
-import { fenxyBlue } from 'src/util/constants/style';
+import { fenxyBlue, lowBlack, veryLowBlack } from 'src/util/constants/style';
 import GetSeoulTime from 'src/common/time/GetSeoulTime';
 import { User } from 'src/api/usersApi';
 import { useAdminAssetCategoryScreen } from './hooks/useAdminAssetCategoryScreen';
@@ -44,27 +44,31 @@ const AdminAssetCategoryScreen = () => {
         {
             return <Flex>
                 {
-                    (categoryList??[]).map((item, index) => {
+                    (categoryList ?? []).map((item, index) => {
                         // const tableCssTheme: any = tableCss ? tableCss(item) : {};
 
                         return (
                             <Flex
-                                key={'row_' + index.toString()}>
+                                key={'row_' + index.toString()}
+                                css={{
+                                    backgroundColor: item.isDisable ? lowBlack : undefined
+                                }}
+                            >
                                 <FlexRow
                                     css={{
                                         borderBottom: '1px solid #f5f5f5',
                                     }}>
                                     <FlexCenter
-                                        css={{marginRight:10}}
+                                        css={{ marginRight: 10 }}
                                     >
                                         <Image
-                                            css={{cursor:'pointer'}}
+                                            css={{ cursor: 'pointer' }}
                                             src={`/image/admin/icon/arrow-${hookMember.isUnfoldList[item.id] === true ? 'down' : 'up'}-gray-500.svg`}
                                             width={20}
                                             height={20}
                                             alt="펼치기"
-                                            onClick={()=>{
-                                                hookMember.onClickUnfoldCategory(item,!(hookMember.isUnfoldList[item.id]))
+                                            onClick={() => {
+                                                hookMember.onClickUnfoldCategory(item, !(hookMember.isUnfoldList[item.id]))
                                             }}
                                         />
                                     </FlexCenter>
@@ -81,6 +85,13 @@ const AdminAssetCategoryScreen = () => {
                                                 hookMember.onClickToModify(id, item.categoryName, item.categoryCode)
                                             }}
                                             targetId={item.id}
+                                            isDsiable={item.isDisable}
+                                            deleteAction={() => {
+                                                hookMember.onClickDeleteCategory(item.id);
+                                            }}
+                                            disableAction={() => {
+                                                hookMember.onClickDisableCategory(item.id, !item.isDisable);
+                                            }}
                                         />
                                     }
                                 </FlexRow>
@@ -191,7 +202,7 @@ const AdminAssetCategoryScreen = () => {
                 }}>
             </FlexRow>
             {/* 테이블 로우 */}
-            <Flex css={{ fontSize: 14, color: '#333', paddingTop:20 }}>
+            <Flex css={{ fontSize: 14, color: '#333', paddingTop: 20 }}>
                 <AssetCategoryElement categoryList={hookMember.table} />
             </Flex>
         </Flex>

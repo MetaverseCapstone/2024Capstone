@@ -50,6 +50,8 @@ interface hookMember {
   onClickUnfoldCategory: (parentCategory: AssetCategoryClass, isUnfold: boolean) => void;
   onClickToModify: (id?: number, categoryName?: string, categoryCode?: string) => void;
 
+  onClickDeleteCategory: (id:number) => void;
+  onClickDisableCategory: (id:number, isDisable:boolean) => void;
 }
 
 export function useAdminAssetCategoryScreen(): hookMember {
@@ -109,10 +111,8 @@ export function useAdminAssetCategoryScreen(): hookMember {
 
         setPage(page);
         // setCategoryData(result.data);
-        setTable(categoryData.map(item => new AssetCategoryClass(item)));
         setTotalCount(result.count);
-        await refetchCurrentTable();
-        setTable(table);
+        setTable(await refetchCurrentTable(categoryData.map(item => new AssetCategoryClass(item)))?? []);
       }
     }
   }
@@ -214,6 +214,32 @@ export function useAdminAssetCategoryScreen(): hookMember {
     }
   }
 
+  const onClickDeleteCategory = async (id:number) => {
+    const toDelete = confirm("정말 삭제하시겠습니까?");
+    if(!toDelete) return;
+    const result:any = await RemoveAssetCategory({ id });
+    // noticeRefetch();
+    if(result?.data) {
+      if (page) changePageAndSearchCategory(page);
+    }
+  }
+
+  const onClickDisableCategory = async (id:number, isDisable:boolean) => {
+    const result: any = await updateAssetCategory({
+      id,
+      body: {
+        isDisable,
+        userId: adminId
+      }
+    });
+
+    if (result?.data) {
+      if (page) {
+        changePageAndSearchCategory(page);
+      }
+    }
+  }
+
   const searchCategoryById = (id: number, childTable = table): AssetCategoryClass | undefined => {
     if (!childTable || childTable.length == 0) return undefined;
     for (let i = 0; i < childTable.length; i++) {
@@ -227,9 +253,11 @@ export function useAdminAssetCategoryScreen(): hookMember {
     for (let i = 0; i < childTable.length; i++) {
       if(isUnfoldList[childTable[i].id] === true) {
         await setChildCategory(childTable[i]);
+        if ((childTable[i].childCategory ?? []).length > 0) childTable[i].childCategory = await refetchCurrentTable(childTable[i].childCategory);
       }
-      if ((childTable[i].childCategory ?? []).length > 0) await refetchCurrentTable(childTable[i].childCategory);
     }
+
+    return childTable;
   }
 
   const setChildCategory = async (parentCategory: AssetCategoryClass) => {
@@ -308,6 +336,9 @@ export function useAdminAssetCategoryScreen(): hookMember {
 
     onClickModifyCategory,
     onClickToModify,
+
+    onClickDeleteCategory,
+    onClickDisableCategory,
   };
 }
 

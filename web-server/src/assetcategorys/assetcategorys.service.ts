@@ -243,7 +243,7 @@ export class AssetcategorysService {
   }
 
   removeAssetCategory(id: number) {
-    return this.prisma.user.delete({
+    return this.prisma.assetCategory.delete({
       where: {
         id,
       },

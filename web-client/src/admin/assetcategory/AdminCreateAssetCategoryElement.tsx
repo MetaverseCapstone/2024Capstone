@@ -1,7 +1,7 @@
 import { InputStyle, StyledButton, TheadSmall } from "src/common/styledAdmin";
 import { Flex, FlexCenter, FlexRow } from "src/common/styledComponents";
 import { useAdminCreateAssetCategoryElement } from "./hooks/useAdminCreateAssetCategoryElement";
-import { fenxyBlue } from "src/util/constants/style";
+import { fenxyBlue, fenxyWhite, lowBlack, mediumBlack } from "src/util/constants/style";
 import Image from 'next/image';
 
 export const AdminCreateAssetCategoryElement = ({
@@ -10,8 +10,10 @@ export const AdminCreateAssetCategoryElement = ({
     inputAction,
     startAction,
     categoryName,
-    categoryCode
-
+    categoryCode,
+    disableAction,
+    deleteAction,
+    isDsiable
 }: {
     modifiedId?: number;
     targetId: number;
@@ -19,6 +21,10 @@ export const AdminCreateAssetCategoryElement = ({
     startAction: (id?: number) => void;
     categoryName?: string;
     categoryCode?: string;
+
+    disableAction?: () => void;
+    deleteAction?: () => void;
+    isDsiable?: boolean
 }) => {
     const hookMember = useAdminCreateAssetCategoryElement({ categoryCode, categoryName });
     return modifiedId === targetId ?
@@ -73,6 +79,7 @@ export const AdminCreateAssetCategoryElement = ({
                 '>div': {
                     paddingRight: 10,
                 },
+                marginTop: categoryName ? 0 : 10,
             }}>
             {categoryName ? <FlexCenter>{categoryName}</FlexCenter> : undefined}
             {categoryCode ? <FlexCenter>{categoryCode}</FlexCenter> : undefined}
@@ -83,10 +90,24 @@ export const AdminCreateAssetCategoryElement = ({
                         hookMember.onChangeCategoryName(categoryName ? categoryName : '');
                         startAction(targetId);
                     }}
-                    css={{ background: fenxyBlue,marginLeft:0, }}>
+                    css={{ background: categoryName ? mediumBlack : fenxyBlue, marginLeft: 0, }}>
                     {categoryName ? '수정' : '추가'}하기
                 </StyledButton>
             </Flex>
+            {disableAction ? <Flex><StyledButton
+                onClick={() => {
+                    disableAction();
+                }}
+                css={{ background: !isDsiable ? lowBlack : 'green', marginLeft: 0, }}>
+                {!isDsiable ? '비활성화' : '활성화'}
+            </StyledButton></Flex> : undefined}
+            {deleteAction ? <Flex><StyledButton
+                onClick={() => {
+                    deleteAction();
+                }}
+                css={{ background: 'red', marginLeft: 0}}>
+                삭제하기
+            </StyledButton></Flex> : undefined}
 
         </FlexRow>
 

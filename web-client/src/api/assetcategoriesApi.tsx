@@ -152,8 +152,8 @@ export type AssetCategory = {
 
 export type AssetCategoryUpdateInput = {
     createdAt?: string;
-    categoryCode: string;
-    categoryName: string;
+    categoryCode?: string;
+    categoryName?: string;
     parentId?: number;
     userId?: number;
     isDisable?: boolean;
