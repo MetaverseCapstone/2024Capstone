@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { GlobalModule } from './global/global.module';
 import { AuthModule } from './auth/auth.module';
 import { AssetcategorysModule } from './assetcategorys/assetcategorys.module';
+import { AssetstylesModule } from './assetstyles/assetstyles.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AssetcategorysModule } from './assetcategorys/assetcategorys.module';
     UsersModule,
     AuthModule,
     AssetcategorysModule,
+    AssetstylesModule,
   ],
   controllers: [AppController],
   providers: [

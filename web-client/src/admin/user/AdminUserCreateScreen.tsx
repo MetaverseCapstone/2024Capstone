@@ -8,7 +8,7 @@ import {
     TheadSmall,
 } from 'src/common/styledAdmin';
 import { Flex, FlexCenter, FlexRow } from 'src/common/styledComponents';
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import { useAdminUserCreateScreen } from './hooks/useAdminUserCreateScreen';
 
 const AdminUserCreateScreen = () => {
@@ -23,8 +23,8 @@ const AdminUserCreateScreen = () => {
         color: '#999',
         cursor: 'pointer',
         '&.active': {
-            background: yoksuriBlue,
-            borderColor: yoksuriBlue,
+            background: fenxyBlue,
+            borderColor: fenxyBlue,
             color: 'white',
         },
     };
@@ -50,7 +50,7 @@ const AdminUserCreateScreen = () => {
                     </div>
                     <FlexRow>
                         <StyledButton
-                            css={{ background: yoksuriBlue }}
+                            css={{ background: fenxyBlue }}
                             onClick={hookMember.onClickCreateUser}>
                             저장
                         </StyledButton>
@@ -122,7 +122,7 @@ const AdminUserCreateScreen = () => {
                             {hookMember.duplicateId && (
                                 <div
                                     className="notBottomBorder"
-                                    css={{ paddingTop: 8, marginBottom: 0, color: yoksuriBlue }}>
+                                    css={{ paddingTop: 8, marginBottom: 0, color: fenxyBlue }}>
                                     *중복검사를 해주세요.
                                 </div>
                             )}
@@ -213,7 +213,7 @@ const AdminUserCreateScreen = () => {
                                     css={{
                                         paddingTop: 8,
                                         marginBottom: 0,
-                                        color: yoksuriBlue,
+                                        color: fenxyBlue,
                                     }}>
                                     *중복검사를 해주세요.
                                 </div>

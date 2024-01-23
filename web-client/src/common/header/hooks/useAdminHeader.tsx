@@ -23,7 +23,8 @@ interface hookMember {
 
 export const navArray = [
   // { title: '결제관리', name: '전체조회', url: '/admin/payment' },
-  { title: '에셋관리', name: '에셋관리', url: '/admin/asset/manage' },
+  { title: '에셋관리', name: '에셋관리', url: '/admin/asset' },
+  { title: '에셋관리', name: '카테고리관리', url: '/admin/assetcategory' },
   { title: '월드관리', name: '월드관리', url: '/admin/world/manage' },
   { title: '재화관리', name: '재화 거래 내역', url: '/admin/goods/payment' },
   { title: '유저관리', name: '유저관리', url: '/admin/user' },
@@ -71,7 +72,7 @@ export function useAdminHeader(): hookMember {
     },
     onClickMenu: (item) => {
       if (item === '에셋관리') {
-        router.push('/admin/asset/manage');
+        router.push('/admin/assetcategory');
       } else if (item === '월드관리') {
         router.push('/admin/world/manage');
       } else if (item === '재화관리') {

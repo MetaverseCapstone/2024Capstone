@@ -11,7 +11,7 @@ import {
 import { Flex, FlexCenter, FlexRow } from 'src/common/styledComponents';
 import AdminTable from 'src/common/table/AdminTable';
 import GetSeoulTime from 'src/common/time/GetSeoulTime';
-import { mediumBlack, yoksuriBlue } from 'src/util/constants/style';
+import { mediumBlack, fenxyBlue } from 'src/util/constants/style';
 import { useAdminUserDetailScreen } from './hooks/useAdminUserDetailScreen';
 
 const AdminUserDetailScreen = () => {
@@ -26,8 +26,8 @@ const AdminUserDetailScreen = () => {
         color: '#999',
         // cursor: 'pointer',
         '&.active': {
-            background: yoksuriBlue,
-            borderColor: yoksuriBlue,
+            background: fenxyBlue,
+            borderColor: fenxyBlue,
             color: 'white',
         },
         cursor: 'pointer'
@@ -66,7 +66,7 @@ const AdminUserDetailScreen = () => {
 
                         <StyledButton
                             onClick={hookMember.onClickUpdateUser}
-                            css={{ background: yoksuriBlue }}>
+                            css={{ background: fenxyBlue }}>
                             수정
                         </StyledButton>
                         <StyledButton

@@ -1,4 +1,4 @@
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import { Flex, FlexCenter, FlexRow } from '../styledComponents';
 import Image from 'next/image';
 import { useAdminTable } from './hooks/useAdminTable';
@@ -153,7 +153,7 @@ const AdminTable = ({
               cursor: 'pointer',
             },
             '>.btnPageNum:hover, >.btnPageNum.active': {
-              background: yoksuriBlue,
+              background: fenxyBlue,
               color: '#fff',
             },
           }}>

@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "./basic"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 로그인 타입
+enum LoginType {
+  LOCAL
+  ADMIN
+}
+
+// 유저 등급 타입
+enum UserType {
+  GENERAL
+  ADMIN
+  MANAGER
+}
+
+// 유저
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  loginId     String // 로그인 ID (SNS 토큰)
+  loginPw     String?   @db.Text // 로그인 PW 
+  username    String
+  loginType   LoginType
+  userType    UserType
+  nickname    String
+  isDisable   Boolean   @default(false)
+
+  AssetCategory    AssetCategory[]
+
+  @@unique([loginType, loginId], name: "loginUnique")
+}
+
+// 에셋 카테고리
+model AssetCategory {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+
+  categoryCode  String          @unique
+  categoryName  String
+
+  parentId      Int?
+  AssetCategory AssetCategory?  @relation("ChildAssetCategory",fields: [parentId], references: [id])
+  childCategory AssetCategory[] @relation("ChildAssetCategory")
+
+  User          User?           @relation(fields: [userId], references: [id])
+  userId        Int?
+
+  isDisable   Boolean   @default(false)
+
+  AssetStyleToCategory          AssetStyleToCategory[]
+}
+
+// 에셋 스타일
+model AssetStyle {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+
+  styleCode     String          @unique
+  styleName     String          @unique
+
+  isDisable     Boolean         @default(false)
+
+  AssetStyleToCategory          AssetStyleToCategory[]
+}
+
+model AssetStyleToCategory {
+  AssetCategory AssetCategory   @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  AssetStyle    AssetStyle      @relation(fields: [styleId], references: [id])
+  styleId       Int
+  createdAt     DateTime        @default(now())
+
+  @@id([categoryId, styleId])
+}

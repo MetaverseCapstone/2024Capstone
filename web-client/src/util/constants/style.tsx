@@ -1,5 +1,5 @@
-export const yoksuriWhite = '#FFFFFF';
-export const yoksuriBlue = '#098ED3';
+export const fenxyWhite = '#FFFFFF';
+export const fenxyBlue = '#098ED3';
 export const veryLowBlack = '#EEEEEE';
 export const lowBlack = '#999999';
 export const mediumBlack = '#666666';

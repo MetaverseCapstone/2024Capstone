@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Flex, FlexCenter, FlexRow } from 'src/common/styledComponents';
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 
 interface AdminImageModalProps {
   display: 'flex' | 'none';
@@ -34,7 +34,7 @@ const Modal = (props: AdminImageModalProps) => {
             width: '100%',
             padding: '0 20px',
             height: 60,
-            background: yoksuriBlue,
+            background: fenxyBlue,
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>

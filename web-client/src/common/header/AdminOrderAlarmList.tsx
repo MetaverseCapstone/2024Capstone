@@ -1,4 +1,4 @@
-import { lowBlack, mediumBlack, veryLowBlack, yoksuriBlue } from "src/util/constants/style";
+import { lowBlack, mediumBlack, veryLowBlack, fenxyBlue } from "src/util/constants/style";
 import { Flex, FlexCenter, FlexRow } from "../styledComponents";
 import { useAdminOrderAlarmList } from "./hooks/useAdminOrderAlarmList";
 import Image from 'next/image';
@@ -128,7 +128,7 @@ const AdminOrderAlarmList = ({
                                                 flex:1,
                                                 borderRadius:20,
                                                 color:'white',
-                                                backgroundColor:item.isViewed? lowBlack: yoksuriBlue,
+                                                backgroundColor:item.isViewed? lowBlack: fenxyBlue,
                                                 padding:5,
                                                 cursor:'pointer'
                                             }}

@@ -7,7 +7,7 @@ import {
 } from 'src/common/styledAdmin';
 import { Flex, FlexRow, FlexRowCenter } from 'src/common/styledComponents';
 import AdminTable from 'src/common/table/AdminTable';
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import {
     SearchUserTypeArray,
     useAdminUserScreen,
@@ -25,8 +25,8 @@ const btnCheckBoxStyle = {
     color: '#999',
     cursor: 'pointer',
     '&.active': {
-        background: yoksuriBlue,
-        borderColor: yoksuriBlue,
+        background: fenxyBlue,
+        borderColor: fenxyBlue,
         color: 'white',
     },
 };
@@ -56,7 +56,7 @@ const AdminUserScreen = () => {
                     <FlexRow>
                         <StyledButton
                             onClick={hookMember.onClickRouteCreate}
-                            css={{ background: yoksuriBlue }}>
+                            css={{ background: fenxyBlue }}>
                             유저 추가
                         </StyledButton>
                         {/* <StyledButton
@@ -113,7 +113,7 @@ const AdminUserScreen = () => {
                             />
                             <StyledButton
                                 onClick={hookMember.onClickSearch}
-                                css={{ border: 0, background: yoksuriBlue, color: 'white' }}>
+                                css={{ border: 0, background: fenxyBlue, color: 'white' }}>
                                 검색
                             </StyledButton>
                         </FlexRow>

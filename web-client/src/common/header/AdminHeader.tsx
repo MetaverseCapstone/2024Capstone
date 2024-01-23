@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import AdminAccept from '../adminAccept/AdminAccept';
 import ConfirmModal from '../modal/ConfirmModal';
 import { Flex, FlexCenter, FlexRow } from '../styledComponents';
@@ -217,7 +217,7 @@ const AdminHeader = ({
                   color: 'white',
                   fontWeight: 500,
                   cursor: 'pointer',
-                  backgroundColor: active === item ? yoksuriBlue : undefined,
+                  backgroundColor: active === item ? fenxyBlue : undefined,
                 }}>
                 {item}
               </Flex>

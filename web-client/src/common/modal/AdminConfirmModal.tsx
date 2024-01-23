@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import { Flex, FlexCenter, FlexRow } from '../styledComponents';
 import { StyledLargeButton } from '../styledAdmin';
 
@@ -51,7 +51,7 @@ const AdminConfirmModal = (props: AdminConfirmModalProps) => {
             width: '100%',
             padding: '0 20px',
             minHeight: 60,
-            background: yoksuriBlue,
+            background: fenxyBlue,
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
@@ -125,7 +125,7 @@ const AdminConfirmModal = (props: AdminConfirmModalProps) => {
                 <StyledLargeButton
                   css={{
                     width: 215,
-                    background: yoksuriBlue,
+                    background: fenxyBlue,
                     color: 'white',
                     border: 0,
                   }}
