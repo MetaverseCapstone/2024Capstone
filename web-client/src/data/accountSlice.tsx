@@ -71,15 +71,6 @@ export const login =
         dispatch(setToken(resJson.accessToken));
         dispatch(setUser(resJson.user));
         sessionStorage.setItem('userData', JSON.stringify(resJson));
-        if (
-          resJson.user.BusinessSubaccount?.filter((e: any) => e.isMain === true)
-            .length > 0
-        ) {
-          const subaccount = resJson.user.BusinessSubaccount.filter(
-            (e: any) => e.isMain === true,
-          )[0];
-          sessionStorage.setItem('subaccount', JSON.stringify(subaccount));
-        }
       })
       .catch((e) => {
         console.log(e);

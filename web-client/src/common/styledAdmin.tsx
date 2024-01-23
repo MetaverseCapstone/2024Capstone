@@ -1,4 +1,4 @@
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import styled from '@emotion/styled';
 import { FlexRow } from 'src/common/styledComponents';
 
@@ -59,7 +59,7 @@ export const TheadSmall = styled.div`
   color: #999;
   margin-bottom: 8px;
   & > span {
-    color: ${yoksuriBlue};
+    color: ${fenxyBlue};
   }
   & ~ div {
     border-bottom: 1px solid #ddd;
@@ -90,7 +90,7 @@ export const InputStyle = styled.input`
     color: #999;
   }
   &:focus {
-    color: ${yoksuriBlue};
+    color: ${fenxyBlue};
   }
 `;
 
@@ -125,8 +125,8 @@ export const CheckBoxStyle = styled.div({
   color: '#999',
   cursor: 'pointer',
   '&.active': {
-    background: yoksuriBlue,
-    borderColor: yoksuriBlue,
+    background: fenxyBlue,
+    borderColor: fenxyBlue,
     color: 'white',
   },
 });

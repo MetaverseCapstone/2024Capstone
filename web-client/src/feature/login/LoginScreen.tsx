@@ -132,9 +132,9 @@ const LoginScreen: NextPage = () => {
             </FlexCenter>
           </Flex>
         </div>
-        <FlexCenter>
+        {/* <FlexCenter>
             {hookMember.debugText}
-        </FlexCenter>
+        </FlexCenter> */}
       </Flex>
       <MainFooter />
     </Flex>

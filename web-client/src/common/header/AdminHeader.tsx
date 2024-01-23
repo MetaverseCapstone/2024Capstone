@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { yoksuriBlue } from 'src/util/constants/style';
+import { fenxyBlue } from 'src/util/constants/style';
 import AdminAccept from '../adminAccept/AdminAccept';
 import ConfirmModal from '../modal/ConfirmModal';
 import { Flex, FlexCenter, FlexRow } from '../styledComponents';
-import AdminOrderAlarmList from './AdminOrderAlarmList';
+// import AdminOrderAlarmList from './AdminOrderAlarmList';
 import { navArray, useAdminHeader } from './hooks/useAdminHeader';
 
 const AdminHeader = ({
@@ -36,46 +36,7 @@ const AdminHeader = ({
                 ? '10px 0'
                 : 0,
           }}>
-          {navArray
-            .filter((e) => {
-              if (e.name === '쿠폰 관리') {
-                if (hookMember.userType === 'HAPPYCALL') return false;
-                else return true;
-              } else if (e.name === '깃발 가격 설정') {
-                if (
-                  hookMember.userType === 'HAPPYCALL' ||
-                  hookMember.userType === 'ACCOUNTANT' ||
-                  hookMember.userType === 'OPERATOR'
-                )
-                  return false;
-                else return true;
-              } else if (e.name === '공지사항') {
-                if (hookMember.userType === 'HAPPYCALL') return false;
-                else return true;
-              } else if (e.name === '이벤트') {
-                if (
-                  hookMember.userType === 'HAPPYCALL' ||
-                  hookMember.userType === 'ACCOUNTANT'
-                )
-                  return false;
-                else return true;
-              } else if (e.name === 'FAQ') {
-                if (
-                  hookMember.userType === 'HAPPYCALL' ||
-                  hookMember.userType === 'ACCOUNTANT'
-                )
-                  return false;
-                else return true;
-              } else if (e.name === '포트폴리오') {
-                if (
-                  hookMember.userType === 'HAPPYCALL' ||
-                  hookMember.userType === 'ACCOUNTANT'
-                )
-                  return false;
-                else return true;
-              } else return true;
-            })
-            .map((item, index) => {
+          {navArray.map((item, index) => {
               if (item.title === parent)
                 return (
                   <Flex
@@ -115,9 +76,9 @@ const AdminHeader = ({
           justifyContent: 'flex-end',
           paddingRight: 20,
         }}>
-        <AdminOrderAlarmList
+        {/* <AdminOrderAlarmList
           userType={hookMember.userType}
-        />
+        /> */}
         {/* <Flex
           css={{ marginRight: 50, cursor: 'pointer' }}
           onClick={hookMember.onClickRouterMain}>
@@ -234,32 +195,12 @@ const AdminHeader = ({
           관리자
         </FlexCenter>
         {/*  */}
-        {(hookMember.userType === 'HAPPYCALL' ||
-        hookMember.userType === 'OPERATOR' ||
-        hookMember.userType === 'ACCOUNTANT'
-          ? [
-              '견적/입찰관리',
-              '결제관리',
-              '쿠폰관리',
-              '포인트',
-              '깃발관리',
-              '게시판관리',
-              '회원관리',
-            ]
-          : [
-              '상품관리',
-              '견적/입찰관리',
-              '결제관리',
-              '쿠폰관리',
-              '포인트',
-              '깃발관리',
-              '기본가격',
-              '수수료관리',
-              '게시판관리',
-              '회원관리',
-              // '직원관리',
-            ]
-        ).map((item, index) => {
+        {[
+              '에셋관리',
+              '월드관리',
+              '재화관리',
+              '유저관리',
+          ].map((item, index) => {
           return (
             <div key={index.toString()}>
               <Flex
@@ -276,7 +217,7 @@ const AdminHeader = ({
                   color: 'white',
                   fontWeight: 500,
                   cursor: 'pointer',
-                  backgroundColor: active === item ? yoksuriBlue : undefined,
+                  backgroundColor: active === item ? fenxyBlue : undefined,
                 }}>
                 {item}
               </Flex>
