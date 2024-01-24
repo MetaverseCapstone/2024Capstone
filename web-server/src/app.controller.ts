@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Public } from './util/decorators';
-import { LoginType } from '@prisma/client';
+import { LoginType } from 'prisma/basic';
 import { AuthService } from './auth/auth.service';
 import { loginCryptoConstants } from './auth/jwtConstants';
 import * as crypto from 'crypto';

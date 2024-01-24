@@ -1,4 +1,4 @@
-import { LoginType, User } from '.prisma/client';
+import { LoginType, User } from 'prisma/basic';
 import {
   BadRequestException,
   ConflictException,

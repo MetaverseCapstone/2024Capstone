@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/global/prisma.service';
 import * as crypto from 'crypto';
 import { loginCryptoConstants } from 'src/auth/jwtConstants';
-import { LoginType, UserType } from '@prisma/client';
+import { LoginType, UserType } from 'prisma/basic';
 
 @Injectable()
 export class UsersService {
