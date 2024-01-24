@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class UserInfo
 {
@@ -18,28 +18,28 @@ public class RegisterPopup : MonoBehaviour
     public TMP_InputField idField;
     public TMP_InputField emailField;
     public TMP_InputField pwField;
-    public TMP_Text successfulTxt;
-    public TMP_Text failText;
+    public TMP_Text msgTxt;
 
     private string id;
     private string email;
     private string pw;
 
     private string url = "http://localhost:4000";
+    private string duplicateIDUrl = "/users/duplicate?type=loginId&content=";
 
     public void Awake()
     {
-        
+
     }
 
     public void Start()
     {
-        
+
     }
 
     public void Update()
     {
-        
+
     }
 
 
@@ -55,8 +55,7 @@ public class RegisterPopup : MonoBehaviour
 
     public void OnClickRegister()
     {
-        failText.gameObject.SetActive(false);
-        successfulTxt.gameObject.SetActive(false);
+        msgTxt.gameObject.SetActive(false);
 
         id = idField.text;
         email = emailField.text;
@@ -65,52 +64,53 @@ public class RegisterPopup : MonoBehaviour
         Debug.Log("Register Clicked");
         Debug.Log("ID : " + id + " Email : " + email + " PW : " + pw);
 
-        UserInfo userInfo = new UserInfo
-        {
-            id = id,
-            email = email,
-            pw = pw,
-        };
 
-        string json = JsonUtility.ToJson(userInfo);
-
-
-        /*
-        if (!findUserID(id))
+        // ID 중복 검사를 위한 코루틴 생성 및 실행
+        StartCoroutine(RequestGet(url + duplicateIDUrl + id, (callback) =>
         {
-            
-        }
-        else
-        {
-            failText.text = "This ID is already taken. Please enter a different ID.";
-            failText.gameObject.SetActive(true);
-        }
-        */
-        
+            Debug.Log("RequestGet Callback : " + callback);
+            if (callback == "true")
+            {
+                msgTxt.gameObject.SetActive(true);
+                msgTxt.color = Color.green;
+                msgTxt.text = "This ID is UNIQUE! GOOD!";
+            }
+            else
+            {
+                msgTxt.gameObject.SetActive(true);
+                msgTxt.color = Color.red;
+                msgTxt.text = "Register Failed. Check your ID";
+            }
+        }));
     }
 
-    public bool findDuplicatet(string id, string email)
-    {
-        string duplicateIDU = url + "/users/duplicate";
 
-        return false;
-    }
-
-    IEnumerator RequestPost(string url, string json)
+    IEnumerator RequestPost(string url, string json, Action<string> callback)
     {
-        using(UnityWebRequest request = UnityWebRequest.PostWwwForm(url, json))
+        using (UnityWebRequest request = UnityWebRequest.PostWwwForm(url, json))
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);
             request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            yield return request.SendWebRequest();   
+            yield return request.SendWebRequest();
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                string result = request.downloadHandler.text;
+                Debug.Log("Request Text : " + result);
+                callback(result);
+            }
         }
     }
 
-    IEnumerator RequestGet(string url)
+    IEnumerator RequestGet(string url, Action<string> callback)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
+        // response가 올 때까지 턴 넘김
         yield return request.SendWebRequest();
         if (request.result != UnityWebRequest.Result.Success)
         {
@@ -118,7 +118,10 @@ public class RegisterPopup : MonoBehaviour
         }
         else
         {
-            Debug.Log(request.downloadHandler.text);
+            // response의 내용을 callback에 넣음
+            string result = request.downloadHandler.text;
+            Debug.Log("Request Text : " + result);
+            callback(result);
         }
     }
 

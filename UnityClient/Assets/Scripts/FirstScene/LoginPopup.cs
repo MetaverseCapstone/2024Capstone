@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class LoginPopup : MonoBehaviour
 {
 
     public RegisterPopup registerPopup;
     public Button closeBtn;
+
+    public TMP_InputField idField;
+    public TMP_InputField pwField;
+    public TMP_Text msgTxt;
+
+    private string id;
+    private string pw;
+
+    private string url = "http://localhost:4000";
 
     public void Init()
     {
@@ -26,6 +37,11 @@ public class LoginPopup : MonoBehaviour
 
     public void OnClickLogin()
     {
+        msgTxt.gameObject.SetActive(false);
+
+        id = idField.text;
+        pw = pwField.text;
+
         Debug.Log("Login Clicked");
     }
 
