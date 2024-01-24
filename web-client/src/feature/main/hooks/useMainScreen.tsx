@@ -11,6 +11,7 @@ interface HookMember {
     user: accountSlice.User | undefined;
     onClickSignin(): void;
     onClickLogout(): void;
+    onClickUploadAsset():void;
 }
 
 export function useMainScreen(): HookMember {
@@ -33,6 +34,10 @@ export function useMainScreen(): HookMember {
         router.push('/login');
     };
 
+    const onClickUploadAsset = () => {
+        router.push('/asset/upload');
+    };
+
     const onClickLogout = () => {
         // id,pw를 가져오고 슬라이스의 로그인으로 넘김
         dispatch(accountSlice.logout());
@@ -41,6 +46,7 @@ export function useMainScreen(): HookMember {
     return {
         user,
         onClickSignin,
-        onClickLogout
+        onClickLogout,
+        onClickUploadAsset
     };
 }

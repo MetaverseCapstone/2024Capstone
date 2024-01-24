@@ -1,0 +1,1 @@
+export { default } from 'src/feature/asset/upload/AssetUploadScreen';

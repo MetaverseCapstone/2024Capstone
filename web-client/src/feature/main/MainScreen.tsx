@@ -3,6 +3,7 @@ import { Flex, FlexCenter, FlexRow } from 'src/common/styledComponents';
 import Header from 'src/common/header/Header';
 import { MainFooter } from 'src/common/footer/MainFooter';
 import { useMainScreen } from './hooks/useMainScreen';
+import { fenxyBlue } from 'src/util/constants/style';
 
 const MainScreen: NextPage = () => {
     const hookMember = useMainScreen();
@@ -28,18 +29,18 @@ const MainScreen: NextPage = () => {
                                     }}>
                                     {hookMember.user?.nickname}님
                                     <Flex
-                                    style={{ fontSize: 14 }}
-                                    onClick={hookMember.onClickLogout}>
-                                    <div
-                                        css={{
-                                            cursor: 'pointer',
-                                            color: 'gray',
-                                            marginLeft: 8,
-                                            lineHeight: '18px',
-                                        }}>
-                                        로그아웃
-                                    </div>
-                                </Flex>
+                                        style={{ fontSize: 14 }}
+                                        onClick={hookMember.onClickLogout}>
+                                        <div
+                                            css={{
+                                                cursor: 'pointer',
+                                                color: 'gray',
+                                                marginLeft: 8,
+                                                lineHeight: '18px',
+                                            }}>
+                                            로그아웃
+                                        </div>
+                                    </Flex>
                                 </FlexRow>
                             ) : (
                                 <Flex
@@ -74,6 +75,30 @@ const MainScreen: NextPage = () => {
                     <span css={{}}>서비스 준비중입니다.</span>
 
                 </FlexCenter>
+
+                <FlexCenter
+                    css={{
+                        marginTop: 40,
+                        
+                    }}>
+                    <FlexCenter
+                        css={{
+                            margin: '0 auto',
+                            width: '30%',
+                            height: 100,
+                            backgroundColor: fenxyBlue,
+                            borderRadius:30,
+                            fontSize:32,
+                            fontWeight:'bold',
+                            color:'white',
+                            cursor:'pointer'
+                        }}
+                        onClick={()=>hookMember.onClickUploadAsset()}
+                    >
+                        에셋 업로드하기
+                    </FlexCenter>
+                </FlexCenter>
+
                 {/* <FlexCenter>
             {hookMember.debugText}
         </FlexCenter> */}
