@@ -1,0 +1,73 @@
+[
+    {
+        "id": "1",
+        "categoryName": "test1",
+        "categoryCode": "테스트1",
+        "child": [
+            {
+                "id": "2",
+                "categoryName": "testchild1",
+                "categoryCode": "테스트차일드1",
+                "child": [
+                    {
+                        "id": "6",
+                        "categoryName": "testchildchild1",
+                        "categoryCode": "테스트차일드차일1"
+                    },
+                    {
+                        "id": "7",
+                        "categoryName": "testchildchild2",
+                        "categoryCode": "테스트차일드차일2"
+                    },
+                    {
+                        "id": "8",
+                        "categoryName": "testchildchild3",
+                        "categoryCode": "테스트차일드차일3"
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "categoryName": "testchild2",
+                "categoryCode": "테스트차일드2"
+            },
+            {
+                "id": "4",
+                "categoryName": "testchild3",
+                "categoryCode": "테스트차일드3"
+            },
+            {
+                "id": "5",
+                "categoryName": "testchild4",
+                "categoryCode": "테스트차일드4"
+            }
+        ]
+    },
+    {
+        "id": "9",
+        "categoryName": "test2",
+        "categoryCode": "테스트2",
+        "child": [
+            {
+                "id": "10",
+                "categoryName": "testchild2_1",
+                "categoryCode": "테스트차일드2_1"
+            },
+            {
+                "id": "11",
+                "categoryName": "testchild2_2",
+                "categoryCode": "테스트차일드2_2"
+            },
+            {
+                "id": "12",
+                "categoryName": "testchild2_3",
+                "categoryCode": "테스트차일드2_3"
+            },
+            {
+                "id": "13",
+                "categoryName": "testchild2_4",
+                "categoryCode": "테스트차일드2_4"
+            }
+        ]
+    }
+]
