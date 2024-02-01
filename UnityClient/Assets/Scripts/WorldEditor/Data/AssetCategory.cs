@@ -1,17 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace WorldEditor
 {
-	public class AssetCategory
+	public class AssetCategory : RawAssetCategoryBase<AssetCategory>
 	{
-		public int id;
-		public string categoryName;
-		public string categoryCode;
 		public AssetCategory parentAssetCategory = null;
-		public List<AssetCategory> childAssetCategories = null;
 
 		AssetCategory(
 			int _id,
@@ -26,23 +19,23 @@ namespace WorldEditor
 
 			parentAssetCategory = _parentAssetCategory;
 
-			if(parentAssetCategory.childAssetCategories == null || parentAssetCategory.childAssetCategories.Count == 0)
-				parentAssetCategory.childAssetCategories = new List<AssetCategory>();
-			parentAssetCategory.childAssetCategories.Add(this);
+			if (parentAssetCategory.child == null || parentAssetCategory.child.Length == 0)
+				parentAssetCategory.child = new AssetCategory[0];
+			parentAssetCategory.child.Concat(new[] { this });
 		}
 
-		AssetCategory(RawAssetCategory raw, AssetCategory parent = null)
+		public AssetCategory(RawAssetCategory raw, AssetCategory parent = null)
 		{
 			categoryName = raw.categoryName;
 			categoryCode = raw.categoryCode;
 			id = raw.id;
-			if(parent != null) parentAssetCategory = parent;
-			if(raw.child.Length>0)
+			if (parent != null) parentAssetCategory = parent;
+			if (raw.child.Length > 0)
 			{
-				childAssetCategories = new List<AssetCategory>(raw.child.Length);
-				for(int i =0;i<childAssetCategories.Count;i++)
+				child = new AssetCategory[raw.child.Length];
+				for (int i = 0; i < child.Length; i++)
 				{
-					childAssetCategories[0] = new AssetCategory(raw.child[i], this);
+					child[i] = new AssetCategory(raw.child[i], this);
 				}
 			}
 		}

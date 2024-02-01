@@ -9,7 +9,7 @@ namespace WorldEditor
 	{
 		[SerializeField] private TMP_Dropdown dropDown;
 		int depth;
-		List<AssetCategory> assetCategories;
+		AssetCategory[] assetCategories;
 		AssetCategoryDropBoxContainer container;
 
 		int _curIndex;
@@ -34,14 +34,14 @@ namespace WorldEditor
 			return this;
 		}
 
-		public void SetCategoryArray(List<AssetCategory> _assetCategories, int _depth, int _categiryIndex = -1)
+		public void SetCategoryArray(AssetCategory[] _assetCategories, int _depth, int _categiryIndex = -1)
 		{
-			if (assetCategories.Count == 0) return;
+			if (assetCategories.Length == 0) return;
 
 			if(assetCategories != _assetCategories)
 			{
 				assetCategories = _assetCategories;
-				List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>(assetCategories.Count + 1);
+				List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>(assetCategories.Length + 1);
 				options[0] = new TMP_Dropdown.OptionData("ÀüÃ¼");
 				for (int i = 1; i < options.Count + 1; i++)
 				{
@@ -57,8 +57,8 @@ namespace WorldEditor
 
 		void SettingCategoryDropBox()
 		{
-			var categories = (curIndex == 0) ? assetCategories : assetCategories[curIndex].childAssetCategories;
-			if (categories != null && categories.Count > 0) container.RequireChildCategory(depth + 1, categories);
+			var categories = (curIndex == 0) ? assetCategories : assetCategories[curIndex].child;
+			if (categories != null && categories.Length > 0) container.RequireChildCategory(depth + 1, categories);
 		}
 
 		public void SetActive(bool isActive)

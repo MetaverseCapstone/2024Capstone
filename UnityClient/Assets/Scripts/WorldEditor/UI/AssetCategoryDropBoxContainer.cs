@@ -10,7 +10,7 @@ namespace WorldEditor
 		[SerializeField] AssetCategoryDropBox assetDropBoxPrefab;
 		[SerializeField] AssetCategoryDropBox[] assetDropBoxes = new AssetCategoryDropBox[0];
 
-		public readonly Transform container;
+		[SerializeField] private Transform _container;
 
 		AssetCategory[] assetCategories;
 
@@ -29,7 +29,7 @@ namespace WorldEditor
 			assetCategories = _assetCategories;
 		}
 
-		public void RequireChildCategory(int depth, List<AssetCategory> assetCategories )
+		public void RequireChildCategory(int depth, AssetCategory[] assetCategories )
 		{
 			// Depth 크기만큼 DropBox 생성
 			if (assetDropBoxes.Length < depth)
@@ -38,7 +38,7 @@ namespace WorldEditor
 				Array.Copy(assetDropBoxes, newArray, assetDropBoxes.Length);
 				for (int i = assetDropBoxes.Length - 1; i < depth; i++)
 				{
-					newArray[i] = Instantiate(assetDropBoxPrefab, container).InitCategoryContainer(this);
+					newArray[i] = Instantiate(assetDropBoxPrefab, _container).InitCategoryContainer(this);
 				}
 			}
 
