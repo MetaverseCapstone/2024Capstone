@@ -29,14 +29,16 @@ namespace WorldEditor
 
 		public void RequireCategoryList()
 		{
-			RawAssetCategory[] raw = JsonUtility.FromJson<RawAssetCategory[]>(textAsset.text);
+			RawAssetCategoriesResult raw = JsonUtility.FromJson<RawAssetCategoriesResult>(textAsset.text);
 
-			AssetCategory[] categories = new AssetCategory[raw.Length];
+			AssetCategory[] categories = new AssetCategory[raw.result.Length];
 
-			for(int i = 0;i<raw.Length; i++)
+			int index = 0;
+			foreach (RawAssetCategory lt in raw.result)
 			{
-				Debug.Log(raw[i].GetCategoryNameTree(0));
-				categories[i] = new AssetCategory(raw[i]);
+				Debug.Log(lt.GetCategoryNameTree(0));
+				categories[index] = new AssetCategory(lt);
+				index++;
 			}
 
 			dropBoxContainer.RequireChildCategory(0, categories);

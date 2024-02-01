@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class AssetItem : MonoBehaviour
+public class AssetItem
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public int id;
+	public string name;
+	public int categoryId;
+	public Texture2D thumbnail;
+	public int fileId;
+	public DateTime UploadDate;
+	public int DownloadCount;
+	public int price;
+	public bool isDisable;
 }
+

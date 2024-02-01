@@ -1,28 +1,30 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using static UnityEditor.Rendering.FilterWindow;
 
 namespace WorldEditor
 {
 	[Serializable]
-	public class RawAssetCategoryBase<T> where T : RawAssetCategoryBase<T>
+	public class RawAssetCategoriesResult
+	{
+		public RawAssetCategory[] result;
+	}
+	[Serializable]
+	public class RawAssetCategory
 	{
 		public int id;
 		public string categoryCode;
 		public string categoryName;
-		public T[] child;
-	}
-
-	[Serializable]
-	public class RawAssetCategory : RawAssetCategoryBase<RawAssetCategory>
-	{
+		public RawAssetCategory[] child;
 		public string GetCategoryNameTree(int depth = 0)
 		{
-			string message = String.Join("", Enumerable.Repeat(" ", depth).ToArray()) + categoryCode;
-			if(child != null && child.Length> 0) { message += GetCategoryNameTree(depth + 1); }
+			string message = String.Join("", Enumerable.Repeat("--", depth).ToArray()) + categoryName + "\n";
+			if (child != null && child.Length > 0)
+			{
+				foreach (RawAssetCategory cate in child)
+				{
+					message += cate.GetCategoryNameTree(depth + 1);
+				}
+			}
 
 			return message;
 		}

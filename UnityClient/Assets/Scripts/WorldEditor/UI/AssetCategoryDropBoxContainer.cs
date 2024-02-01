@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WorldEditor
 {
@@ -10,7 +11,7 @@ namespace WorldEditor
 		[SerializeField] AssetCategoryDropBox assetDropBoxPrefab;
 		[SerializeField] AssetCategoryDropBox[] assetDropBoxes = new AssetCategoryDropBox[0];
 
-		[SerializeField] private Transform _container;
+		[SerializeField] private RectTransform _container;
 
 		AssetCategory[] assetCategories;
 
@@ -31,20 +32,23 @@ namespace WorldEditor
 
 		public void RequireChildCategory(int depth, AssetCategory[] assetCategories )
 		{
+			if (assetCategories.Length == 0) return;
+
 			// Depth 크기만큼 DropBox 생성
-			if (assetDropBoxes.Length < depth)
+			if (assetDropBoxes.Length <= depth)
 			{
-				AssetCategoryDropBox[] newArray = new AssetCategoryDropBox[depth];
+				AssetCategoryDropBox[] newArray = new AssetCategoryDropBox[depth+1];
 				Array.Copy(assetDropBoxes, newArray, assetDropBoxes.Length);
-				for (int i = assetDropBoxes.Length - 1; i < depth; i++)
+				for (int i = assetDropBoxes.Length; i < depth+1; i++)
 				{
 					newArray[i] = Instantiate(assetDropBoxPrefab, _container).InitCategoryContainer(this);
 				}
+				assetDropBoxes = newArray;
 			}
 
 			for (int i = 0; i < assetDropBoxes.Length; i++)
 			{
-				if (i < depth)
+				if (i <= depth)
 				{
 					assetDropBoxes[i].SetActive(true);
 				}
@@ -54,8 +58,9 @@ namespace WorldEditor
 				}
 			} 
 
-			assetDropBoxes[depth].SetActive(true);
 			assetDropBoxes[depth].SetCategoryArray(assetCategories, depth);
+
+			LayoutRebuilder.ForceRebuildLayoutImmediate(_container);
 		}
 
 		public void ClearChildCategory(int curDepth)

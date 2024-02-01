@@ -15,7 +15,7 @@ namespace WorldEditor
 		int _curIndex;
 		public int curIndex
 		{
-			get { return _curIndex + 1; }
+			get { return _curIndex; }
 			set { _curIndex = value; dropDown.value = value + 1; }
 		}
 		// Start is called before the first frame update
@@ -36,19 +36,19 @@ namespace WorldEditor
 
 		public void SetCategoryArray(AssetCategory[] _assetCategories, int _depth, int _categiryIndex = -1)
 		{
-			if (assetCategories.Length == 0) return;
+			if (_assetCategories.Length == 0) return;
 
-			if(assetCategories != _assetCategories)
+			if(_assetCategories != assetCategories)
 			{
 				assetCategories = _assetCategories;
-				List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>(assetCategories.Length + 1);
-				options[0] = new TMP_Dropdown.OptionData("전체");
-				for (int i = 1; i < options.Count + 1; i++)
+				List<string> options = new List<string>();
+				options.Add("전체");
+				for (int i = 0; i < assetCategories.Length; i++)
 				{
-					options[i] = new TMP_Dropdown.OptionData(assetCategories[i].categoryName);
+					options.Add(assetCategories[i].categoryName);
 				}
-
-				dropDown.options = options;
+				dropDown.ClearOptions();
+				dropDown.AddOptions(options);
 			}
 
 			depth = _depth;
@@ -57,8 +57,10 @@ namespace WorldEditor
 
 		void SettingCategoryDropBox()
 		{
-			var categories = (curIndex == 0) ? assetCategories : assetCategories[curIndex].child;
-			if (categories != null && categories.Length > 0) container.RequireChildCategory(depth + 1, categories);
+			_curIndex = dropDown.value - 1;
+			int targetIndex = (curIndex == -1) ? depth : depth + 1;
+			var categories = (curIndex == -1) ? assetCategories : assetCategories[curIndex].child;
+			if (categories != null && categories.Length > 0) container.RequireChildCategory(targetIndex, categories);
 		}
 
 		public void SetActive(bool isActive)

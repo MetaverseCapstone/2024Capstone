@@ -2,8 +2,9 @@ using System.Linq;
 
 namespace WorldEditor
 {
-	public class AssetCategory : RawAssetCategoryBase<AssetCategory>
+	public class AssetCategory : RawAssetCategory
 	{
+		public new AssetCategory[] child;
 		public AssetCategory parentAssetCategory = null;
 
 		AssetCategory(
@@ -30,7 +31,7 @@ namespace WorldEditor
 			categoryCode = raw.categoryCode;
 			id = raw.id;
 			if (parent != null) parentAssetCategory = parent;
-			if (raw.child.Length > 0)
+			if (raw.child !=null && raw.child.Length > 0)
 			{
 				child = new AssetCategory[raw.child.Length];
 				for (int i = 0; i < child.Length; i++)

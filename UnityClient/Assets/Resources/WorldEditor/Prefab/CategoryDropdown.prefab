@@ -300,7 +300,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_AlphaFadeSpeed: 1
+  m_AlphaFadeSpeed: 0
 --- !u!114 &67338772152549546
 MonoBehaviour:
   m_ObjectHideFlags: 0
