@@ -1,5 +1,11 @@
+using GLTFast;
+using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
+using Cysharp.Threading.Tasks;
+using UnityEditor.Rendering;
 
 public class ObjectCRUD : MonoBehaviour
 {
@@ -10,11 +16,15 @@ public class ObjectCRUD : MonoBehaviour
 
     public float maxInstantiateRange = 10.0f; // 레이캐스트 최대 범위 
 
+    string gltfServer = "localhost:2002/"; // gtlf 서버 주소
+    string localDirectory = "testDatas";
+
+    bool isLoaded = false;
+
     Camera cam;
     Vector3 ScreenCenter;
 
-    
-
+ 
 
     private void Awake()
     {
@@ -26,9 +36,18 @@ public class ObjectCRUD : MonoBehaviour
     {
         cam = Camera.main;
 
+        string objectDir = Path.Combine(Application.persistentDataPath, localDirectory);
+        if (!Directory.Exists(objectDir))
+        {
+            Directory.CreateDirectory(objectDir);
+            Debug.Log("Create Directory");
+        }
+
+
         ScreenCenter = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2);
         StartCoroutine(ObjectCreate());
         StartCoroutine(ObjectDelete());
+        StartCoroutine(ChangeMyHand());
     }
 
     // Update is called once per frame
@@ -80,4 +99,95 @@ public class ObjectCRUD : MonoBehaviour
         }
     }
 
+    // gltf 모델을 손에 쥐어주는 함수
+    IEnumerator ChangeMyHand()
+    {
+        while (Application.isPlaying)
+        {
+            string filename;
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                filename = "duck.glb";
+                LoadGltfModel(filename); 
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                filename = "wolf.glb";
+                LoadGltfModel(filename);
+            }
+            yield return null;
+        }
+    }
+
+    async void LoadGltfModel(string filename)
+    {
+        string fullFilePath = Path.Combine(Application.persistentDataPath, localDirectory, filename);
+        if (!File.Exists(fullFilePath))
+        {
+            StartCoroutine(DownGltfModel(filename));
+            // while (!File.Exists(fullFilePath)) {continue;}
+        }
+
+        if (isLoaded)
+        {
+            Debug.Log("Loading...");
+            byte[] byteData = File.ReadAllBytes(fullFilePath);
+            var gltf = new GltfImport();
+            bool success = await gltf.LoadGltfBinary(byteData);
+            if (success)
+            {
+                GameObject gltfObj = new GameObject("gltfObj");
+                success = await gltf.InstantiateMainSceneAsync(gltfObj.transform);
+                if (success)
+                {
+                    MeshCollider collider = gltfObj.AddComponent<MeshCollider>();
+                    if (collider != null)
+                        collider.convex = true;
+
+                    Rigidbody rb = gltfObj.AddComponent<Rigidbody>();
+                    if (rb != null)
+                        rb.mass = 1.0f;
+
+                    BoxCollider boxCollider = gltfObj.AddComponent<BoxCollider>();
+
+                    Debug.Log("Asset Load Success : " + fullFilePath);
+                    onMyHand = gltfObj;
+                }
+                else
+                {
+                    Debug.Log("Failed to Load Asset");
+                }
+            }
+            else
+            {
+                Debug.Log("Failed to Load Asset");
+            }
+            isLoaded = false;
+        }
+    }
+
+    IEnumerator DownGltfModel(string filename)
+    {
+        Debug.Log("Download Start. URL : " + gltfServer + filename);
+        UnityWebRequest request = UnityWebRequest.Get(gltfServer + filename);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string fullPath = Path.Combine(Application.persistentDataPath, localDirectory, filename);
+            
+            FileStream fs = new FileStream(fullPath, System.IO.FileMode.Create);
+            fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
+            fs.Close();
+
+            Debug.Log("Asset Down Success : " + fullPath);
+            isLoaded = true;
+        }
+        else
+        {
+            Debug.LogError("Failed to Download GLTF File : " + request.error);
+        }
+        yield return null;
+    }
 }
