@@ -10,6 +10,7 @@ namespace WorldEditor
 		[SerializeField] private TMP_Dropdown dropDown;
 		int depth;
 		List<AssetCategory> assetCategories;
+		AssetCategoryDropBoxContainer container;
 
 		int _curIndex;
 		public int curIndex
@@ -22,13 +23,15 @@ namespace WorldEditor
 		{
 			dropDown.onValueChanged.AddListener(delegate
 			{
-
+				SettingCategoryDropBox();
 			});
 		}
 
-		public void InitCategoryContainer(AssetCategoryDropBoxContainer _container)
+		public AssetCategoryDropBox InitCategoryContainer(AssetCategoryDropBoxContainer _container)
 		{
+			container = _container;
 
+			return this;
 		}
 
 		public void SetCategoryArray(List<AssetCategory> _assetCategories, int _depth, int _categiryIndex = -1)
@@ -54,7 +57,8 @@ namespace WorldEditor
 
 		void SettingCategoryDropBox()
 		{
-
+			var categories = (curIndex == 0) ? assetCategories : assetCategories[curIndex].childAssetCategories;
+			if (categories != null && categories.Count > 0) container.RequireChildCategory(depth + 1, categories);
 		}
 
 		public void SetActive(bool isActive)

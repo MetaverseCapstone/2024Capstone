@@ -38,7 +38,7 @@ namespace WorldEditor
 				Array.Copy(assetDropBoxes, newArray, assetDropBoxes.Length);
 				for (int i = assetDropBoxes.Length - 1; i < depth; i++)
 				{
-					newArray[i] = Instantiate(assetDropBoxPrefab, container);
+					newArray[i] = Instantiate(assetDropBoxPrefab, container).InitCategoryContainer(this);
 				}
 			}
 
@@ -52,7 +52,7 @@ namespace WorldEditor
 				{
 					assetDropBoxes[i].SetActive(false);
 				}
-			}
+			} 
 
 			assetDropBoxes[depth].SetActive(true);
 			assetDropBoxes[depth].SetCategoryArray(assetCategories, depth);

@@ -30,6 +30,22 @@ namespace WorldEditor
 				parentAssetCategory.childAssetCategories = new List<AssetCategory>();
 			parentAssetCategory.childAssetCategories.Add(this);
 		}
+
+		AssetCategory(RawAssetCategory raw, AssetCategory parent = null)
+		{
+			categoryName = raw.categoryName;
+			categoryCode = raw.categoryCode;
+			id = raw.id;
+			if(parent != null) parentAssetCategory = parent;
+			if(raw.child.Length>0)
+			{
+				childAssetCategories = new List<AssetCategory>(raw.child.Length);
+				for(int i =0;i<childAssetCategories.Count;i++)
+				{
+					childAssetCategories[0] = new AssetCategory(raw.child[i], this);
+				}
+			}
+		}
 	}
 }
 
