@@ -1,15 +1,13 @@
+using Cysharp.Threading.Tasks;
 using GLTFast;
-using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-using Cysharp.Threading.Tasks;
-using UnityEditor.Rendering;
 
 public class ObjectCRUD : MonoBehaviour
 {
-
+    public GameObject map;
     public LayerMask instantiateMask; // 레이캐스트 생성 마스크
     public LayerMask destroyMask; // 레이캐스트 삭제 마스크
     public GameObject onMyHand; // 레이캐스트로 생성할 오브젝트 프리팹
@@ -20,11 +18,12 @@ public class ObjectCRUD : MonoBehaviour
     string localDirectory = "testDatas";
 
     bool isLoaded = false;
+    bool hasOriginal = false;
 
     Camera cam;
     Vector3 ScreenCenter;
 
- 
+
 
     private void Awake()
     {
@@ -70,7 +69,11 @@ public class ObjectCRUD : MonoBehaviour
                 Vector3 spawn_point = isHit
                         ? hit.point + new Vector3(0, onMyHand.transform.localScale.y / 2, 0)
                         : cam.transform.position + cam.transform.forward * maxInstantiateRange;
-                Instantiate(onMyHand, spawn_point, Quaternion.identity);
+
+
+                var copyObject = Instantiate(onMyHand, spawn_point, Quaternion.identity);
+                copyObject.transform.SetParent(map.transform);
+                copyObject.SetActive(true);
                 yield return new WaitForSecondsRealtime(0.3f);
             }
             yield return null;
@@ -93,7 +96,7 @@ public class ObjectCRUD : MonoBehaviour
                 {
                     yield return null;
                 }
-                
+
             }
             yield return null;
         }
@@ -107,12 +110,14 @@ public class ObjectCRUD : MonoBehaviour
             string filename;
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
+                Debug.Log("Pressed 1");
                 filename = "duck.glb";
-                LoadGltfModel(filename); 
+                LoadGltfModel(filename);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
+                Debug.Log("Pressed 2");
                 filename = "wolf.glb";
                 LoadGltfModel(filename);
             }
@@ -123,13 +128,29 @@ public class ObjectCRUD : MonoBehaviour
     async void LoadGltfModel(string filename)
     {
         string fullFilePath = Path.Combine(Application.persistentDataPath, localDirectory, filename);
-        if (!File.Exists(fullFilePath))
+
+        if (map.transform.Find(filename) != null) // 이미 게임에 불러와져있을때
         {
-            StartCoroutine(DownGltfModel(filename));
-            // while (!File.Exists(fullFilePath)) {continue;}
+            hasOriginal = true; // 원본 오브젝트가 있음
+        }
+        else
+        {
+            if (File.Exists(fullFilePath)) // 게임에는 없는데 파일로는 있을때
+            {
+                isLoaded = true; // 로딩 되어있음
+            }
+            else // 게임에도 없고 파일로도 없을때
+            {
+                StartCoroutine(DownGltfModel(filename)); // 파일 다운 시작
+            }
         }
 
-        if (isLoaded)
+        if (hasOriginal)
+        {
+            onMyHand = map.transform.Find(filename).gameObject;
+            hasOriginal = false;
+        }
+        else if (isLoaded)
         {
             Debug.Log("Loading...");
             byte[] byteData = File.ReadAllBytes(fullFilePath);
@@ -137,7 +158,9 @@ public class ObjectCRUD : MonoBehaviour
             bool success = await gltf.LoadGltfBinary(byteData);
             if (success)
             {
-                GameObject gltfObj = new GameObject("gltfObj");
+                GameObject gltfObj = new GameObject(filename);
+                gltfObj.transform.position = new Vector3(0, -200, 0);
+                gltfObj.transform.SetParent(map.transform);
                 success = await gltf.InstantiateMainSceneAsync(gltfObj.transform);
                 if (success)
                 {
@@ -150,6 +173,9 @@ public class ObjectCRUD : MonoBehaviour
                         rb.mass = 1.0f;
 
                     BoxCollider boxCollider = gltfObj.AddComponent<BoxCollider>();
+
+                    gltfObj.layer = 6;
+                    gltfObj.SetActive(false);
 
                     Debug.Log("Asset Load Success : " + fullFilePath);
                     onMyHand = gltfObj;
@@ -176,7 +202,7 @@ public class ObjectCRUD : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string fullPath = Path.Combine(Application.persistentDataPath, localDirectory, filename);
-            
+
             FileStream fs = new FileStream(fullPath, System.IO.FileMode.Create);
             fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
             fs.Close();

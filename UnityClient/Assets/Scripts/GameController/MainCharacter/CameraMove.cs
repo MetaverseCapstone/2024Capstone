@@ -7,6 +7,8 @@ public class CameraMove : MonoBehaviour
     float sensitivity;
     float rotationY;
 
+    bool cursorLock = false;
+
     GameObject parentCharacter;
 
     private void Awake()
@@ -25,6 +27,10 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         CameraRotationY();
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            CursorOnOff();
+        }
     }
 
     void CameraRotationY()
@@ -40,5 +46,23 @@ public class CameraMove : MonoBehaviour
         rotationY = rotationY < -30f ? -30f : rotationY;
 
         transform.eulerAngles = new Vector3(-rotationY, parentAngle.y, 0);
+    }
+
+    void CursorOnOff()
+    {
+        // cursor on -> off
+        if (cursorLock)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = false;
+        }
+        // cursor off -> on
+        else if (!cursorLock)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            cursorLock = true;
+        }
     }
 }
