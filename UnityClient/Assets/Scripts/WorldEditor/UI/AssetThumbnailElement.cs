@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class AssetThumbnailElement : MonoBehaviour
+namespace WorldEditor
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public class AssetThumbnailElement : MonoBehaviour
+	{
+		[SerializeField] private RawImage thumbnailImage;
+		[SerializeField] private TMP_Text thumbnailText;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		private AssetItem _asset;
+		public AssetItem Asset
+		{
+			get { return _asset; }
+		}
+
+		// Start is called before the first frame update
+		void Start()
+		{
+
+		}
+
+		public void SetAsset(AssetItem assetItem)
+		{
+			_asset = assetItem;
+			thumbnailText.text = assetItem.name;
+			if (assetItem.thumbnail != null) thumbnailImage.texture = assetItem.thumbnail;
+		}
+
+		public void SetActive(bool isActive)
+		{
+			gameObject.SetActive(isActive);
+		}
+
+		public bool IsActive
+		{
+			get { return gameObject.activeSelf == this; }
+		}
+	}
 }

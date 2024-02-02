@@ -13,7 +13,7 @@ namespace WorldEditor
 		AssetCategoryDropBoxContainer container;
 
 		int _curIndex;
-		public int curIndex
+		public int CurIndex
 		{
 			get { return _curIndex; }
 			set { _curIndex = value; dropDown.value = value + 1; }
@@ -52,14 +52,14 @@ namespace WorldEditor
 			}
 
 			depth = _depth;
-			if(_curIndex!=_categiryIndex) curIndex = _categiryIndex;
+			if(_curIndex!=_categiryIndex) CurIndex = _categiryIndex;
 		}
 
 		void SettingCategoryDropBox()
 		{
 			_curIndex = dropDown.value - 1;
-			int targetIndex = (curIndex == -1) ? depth : depth + 1;
-			var categories = (curIndex == -1) ? assetCategories : assetCategories[curIndex].child;
+			int targetIndex = (CurIndex == -1) ? depth : depth + 1;
+			var categories = (CurIndex == -1) ? assetCategories : assetCategories[CurIndex].child;
 			if (categories != null && categories.Length > 0) container.RequireChildCategory(targetIndex, categories);
 		}
 

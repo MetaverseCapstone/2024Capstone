@@ -6,7 +6,7 @@ namespace WorldEditor
 	{
 
 		[SerializeField] private AssetCategoryDropBoxContainer _dropBoxContainer;
-		public AssetCategoryDropBoxContainer dropBoxContainer
+		public AssetCategoryDropBoxContainer DropBoxContainer
 		{
 			get { return _dropBoxContainer;}
 		}
@@ -14,7 +14,7 @@ namespace WorldEditor
 		// Start is called before the first frame update
 		void Start()
 		{
-			RequireCategoryList();
+
 		}
 
 		// Update is called once per frame
@@ -23,13 +23,9 @@ namespace WorldEditor
 
 		}
 
-		//////////// юс╫ц
-
-		public TextAsset textAsset;
-
-		public void RequireCategoryList()
+		public void RequireCategoryList(string jsonText)
 		{
-			RawAssetCategoriesResult raw = JsonUtility.FromJson<RawAssetCategoriesResult>(textAsset.text);
+			RawAssetCategoriesResult raw = JsonUtility.FromJson<RawAssetCategoriesResult>(jsonText);
 
 			AssetCategory[] categories = new AssetCategory[raw.result.Length];
 
@@ -41,7 +37,7 @@ namespace WorldEditor
 				index++;
 			}
 
-			dropBoxContainer.RequireChildCategory(0, categories);
+			DropBoxContainer.RequireChildCategory(0, categories);
 		}
 	}
 }
