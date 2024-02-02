@@ -32,23 +32,33 @@ namespace WorldEditor
 
 		public void RequireChildCategory(int depth, AssetCategory[] assetCategories )
 		{
-			if (assetCategories.Length == 0) return;
+			Debug.Log("[Test] " + depth + " " + (assetCategories != null ? assetCategories.Length : "null"));
 
-			// Depth 农扁父怒 DropBox 积己
-			if (assetDropBoxes.Length <= depth)
+			int activeDepth = depth;
+			if (assetCategories != null && assetCategories.Length > 0)
 			{
-				AssetCategoryDropBox[] newArray = new AssetCategoryDropBox[depth+1];
-				Array.Copy(assetDropBoxes, newArray, assetDropBoxes.Length);
-				for (int i = assetDropBoxes.Length; i < depth+1; i++)
+				// Depth 农扁父怒 DropBox 积己
+				if (assetDropBoxes.Length <= depth)
 				{
-					newArray[i] = Instantiate(assetDropBoxPrefab, _container).InitCategoryContainer(this);
+					AssetCategoryDropBox[] newArray = new AssetCategoryDropBox[depth + 1];
+					Array.Copy(assetDropBoxes, newArray, assetDropBoxes.Length);
+					for (int i = assetDropBoxes.Length; i < depth + 1; i++)
+					{
+						newArray[i] = Instantiate(assetDropBoxPrefab, _container).InitCategoryContainer(this);
+					}
+					assetDropBoxes = newArray;
 				}
-				assetDropBoxes = newArray;
+				assetDropBoxes[depth].SetCategoryArray(assetCategories, depth);
+			} else
+			{
+				activeDepth -= 1;
 			}
+
+			
 
 			for (int i = 0; i < assetDropBoxes.Length; i++)
 			{
-				if (i <= depth)
+				if (i <= activeDepth)
 				{
 					assetDropBoxes[i].SetActive(true);
 				}
@@ -57,8 +67,6 @@ namespace WorldEditor
 					assetDropBoxes[i].SetActive(false);
 				}
 			} 
-
-			assetDropBoxes[depth].SetCategoryArray(assetCategories, depth);
 
 			LayoutRebuilder.ForceRebuildLayoutImmediate(_container);
 		}

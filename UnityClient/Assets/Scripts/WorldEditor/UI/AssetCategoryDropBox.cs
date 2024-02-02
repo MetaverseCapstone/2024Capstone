@@ -60,7 +60,7 @@ namespace WorldEditor
 			_curIndex = dropDown.value - 1;
 			int targetIndex = (CurIndex == -1) ? depth : depth + 1;
 			var categories = (CurIndex == -1) ? assetCategories : assetCategories[CurIndex].child;
-			if (categories != null && categories.Length > 0) container.RequireChildCategory(targetIndex, categories);
+			container.RequireChildCategory(targetIndex, categories);
 		}
 
 		public void SetActive(bool isActive)
