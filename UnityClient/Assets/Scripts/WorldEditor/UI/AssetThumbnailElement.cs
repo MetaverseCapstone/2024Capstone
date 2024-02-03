@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,10 +11,10 @@ namespace WorldEditor
 		[SerializeField] private RawImage thumbnailImage;
 		[SerializeField] private TMP_Text thumbnailText;
 
-		private AssetItem _asset;
-		public AssetItem Asset
+		private AssetItem assetItem;
+		public AssetItem AssetItem
 		{
-			get { return _asset; }
+			get { return assetItem; }
 		}
 
 		private bool isPointerDown = false;
@@ -23,16 +23,17 @@ namespace WorldEditor
 
 		private AssetThumbnailScrollView thumbnailScrollView;
 
+		Coroutine dragCoroutine;
+
 		// Start is called before the first frame update
 		void Start()
 		{
 
 		}
 
-		// Update is called once per frame
-		void Update()
+		IEnumerator RunDragAssetItem()
 		{
-			if (isPointerDown)
+			while (isPointerDown && !isLongPress)
 			{
 				pressTime += Time.deltaTime;
 
@@ -41,8 +42,11 @@ namespace WorldEditor
 					// 길게 누르기 감지
 					isLongPress = true;
 					OnLongPress();
+					break;
 				}
+				yield return null;
 			}
+
 		}
 
 		public void OnPointerDown(PointerEventData eventData)
@@ -50,6 +54,8 @@ namespace WorldEditor
 			isPointerDown = true;
 			pressTime = 0f;
 			isLongPress = false;
+			if (dragCoroutine != null) StopCoroutine(dragCoroutine);
+			dragCoroutine = StartCoroutine(RunDragAssetItem());
 		}
 
 		public void OnPointerUp(PointerEventData eventData)
@@ -65,12 +71,18 @@ namespace WorldEditor
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			if(isLongPress)
+			if (isLongPress)
 			{
-				Debug.Log("Dragging...");
-			} else
+				WorldEditorController.Instance.DragAssetItemCursor(assetItem, eventData.position);
+			}
+			else
 			{
 				thumbnailScrollView.ScrollRect.OnDrag(eventData);
+				if (eventData.delta.magnitude > 1f)
+				{
+					if (dragCoroutine != null) StopCoroutine(dragCoroutine);
+					dragCoroutine = null;
+				}
 			}
 
 		}
@@ -87,18 +99,18 @@ namespace WorldEditor
 
 		{
 			thumbnailScrollView.ScrollRect.OnEndDrag(e);
-
+			OnLongPressEnd();
 		}
 
 		void OnLongPress()
 		{
-
+			WorldEditorController.Instance.DragAssetItemCursor(assetItem, Input.mousePosition);
 			Debug.Log("Long Pressed!");
 		}
 
 		void OnLongPressEnd()
 		{
-			Debug.Log("Long Press Ended!");
+			WorldEditorController.Instance.EndDragAssetItemCursor();
 		}
 
 		public AssetThumbnailElement InitScrollView(AssetThumbnailScrollView _thumbnailScrollView)
@@ -109,7 +121,7 @@ namespace WorldEditor
 
 		public void SetAsset(AssetItem assetItem)
 		{
-			_asset = assetItem;
+			this.assetItem = assetItem;
 			thumbnailText.text = assetItem.name;
 			if (assetItem.thumbnail != null) thumbnailImage.texture = assetItem.thumbnail;
 		}

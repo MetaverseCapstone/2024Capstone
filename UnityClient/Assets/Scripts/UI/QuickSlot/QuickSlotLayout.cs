@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class QuickSlotLayout : MonoBehaviour
+public abstract class QuickSlotLayoutBase : MonoBehaviour
 {
 	[SerializeField] protected float _space;
 	public float space
@@ -19,13 +19,31 @@ public class QuickSlotLayout : MonoBehaviour
 		set { _slotSize = value; AlignLayout(); }
 	}
 
-	protected QuickSlot[] quickSlots;
-
 	protected RectTransform _rectTransform;
 	public RectTransform rectTransform { get { if (_rectTransform == null) _rectTransform = GetComponent<RectTransform>(); return _rectTransform; } }
 
 
-	public virtual void AlignLayout()
+	public abstract void AlignLayout();
+
+	protected virtual float GetPrefeWidth(float prevWidth, int curIndex)
+	{
+		return prevWidth + _slotSize.x + _space;
+	}
+	protected virtual float GetSlotX(float prevX, int curIndex)
+	{
+		return prevX + slotSize.x + _space;
+	}
+}
+
+public class QuickSlotLayout<SlotType> : QuickSlotLayoutBase where SlotType : QuickSlot
+{
+
+	[SerializeField] protected SlotType[] quickSlots;
+
+	public SlotType[] QuickSlots { get { return quickSlots; } }
+
+
+	public override void AlignLayout()
 	{
 		float preferWidth = 0;
 		float slotX = 0;
@@ -35,10 +53,10 @@ public class QuickSlotLayout : MonoBehaviour
 
 		if (quickSlots == null || quickSlots.Length != childCount)
 		{
-			quickSlots = new QuickSlot[childCount];
+			quickSlots = new SlotType[childCount];
 			for (int i = 0; i < childCount; i++)
 			{
-				quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
+				quickSlots[i] = transform.GetChild(i).GetComponent<SlotType>();
 			}
 		}
 
@@ -57,12 +75,4 @@ public class QuickSlotLayout : MonoBehaviour
 
 	}
 
-	protected virtual float GetPrefeWidth(float prevWidth, int curIndex)
-	{
-		return prevWidth + _slotSize.x + _space;
-	}
-	protected virtual float GetSlotX(float prevX, int curIndex)
-	{
-		return prevX + slotSize.x + _space;
-	}
 }

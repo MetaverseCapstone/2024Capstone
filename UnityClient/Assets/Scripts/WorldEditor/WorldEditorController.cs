@@ -16,6 +16,9 @@ namespace WorldEditor
 			get { return _assetSelectorWindow; }
 		}
 
+		[SerializeField] AssetItemCursor assetItemCursor;
+		public AssetItemCursor AssetItemCursor { get { return assetItemCursor; } }
+
 		private static WorldEditorController instance = null;
 
 		void Awake()
@@ -46,13 +49,23 @@ namespace WorldEditor
 		// Start is called before the first frame update
 		void Start()
 		{
+			assetItemCursor.SetActive(false);
 			_assetSelectorWindow.RequireCategoryList(textAsset.text);
 		}
 
-		// Update is called once per frame
-		void Update()
+		public void DragAssetItemCursor(AssetItem assetItem, Vector3 position)
 		{
+			if (assetItem != assetItemCursor.AssetItem || !assetItemCursor.isActive)
+			{
+				assetItemCursor.SetAsset(assetItem);
+				assetItemCursor.SetActive(true);
+			}
 
+			assetItemCursor.SetCusorPosition(position);
+		}
+		public void EndDragAssetItemCursor()
+		{
+			assetItemCursor.SetActive(false);
 		}
 
 	}

@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace WorldEditor
 {
-	public class AssetQuickSlotLayout : QuickSlotLayout
+	public class AssetQuickSlotLayout : QuickSlotLayout<AssetQuickSlot>
 	{
 		[SerializeField] protected float _rightSpace;
+
 		public float rightSpace
 		{
 			get { return _rightSpace; }
@@ -36,6 +37,19 @@ namespace WorldEditor
 			}
 
 			return prevX;
+		}
+
+		private void Start()
+		{
+			InitSlots();
+		}
+
+		private void InitSlots()
+		{
+			for(int i =0;i<quickSlots.Length;i++)
+			{
+				quickSlots[i].SetSlotLayout(this);
+			}
 		}
 	}
 }
