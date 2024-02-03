@@ -4,17 +4,17 @@ namespace WorldEditor
 {
 	public class AssetSelectorWindow : MonoBehaviour
 	{
-
 		[SerializeField] private AssetCategoryDropBoxContainer _dropBoxContainer;
-		public AssetCategoryDropBoxContainer DropBoxContainer
-		{
-			get { return _dropBoxContainer;}
-		}
+		public AssetCategoryDropBoxContainer DropBoxContainer { get { return _dropBoxContainer; } }
+		[SerializeField] private AssetThumbnailScrollView _assetThumbnailScrollView;
+		public AssetThumbnailScrollView AssetThumbnailScrollView { get { return _assetThumbnailScrollView; } }
+
+		[SerializeField] private DrawerLayout drawerLayout;
 
 		// Start is called before the first frame update
 		void Start()
 		{
-
+			_dropBoxContainer.AddLayoutHandler(drawerLayout.AlignLayout);
 		}
 
 		// Update is called once per frame

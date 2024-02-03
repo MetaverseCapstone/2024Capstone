@@ -13,6 +13,14 @@ namespace WorldEditor
 
 		private Queue<AssetThumbnailElement> assetThumbnailPool = new Queue<AssetThumbnailElement>();
 		private List<AssetThumbnailElement> activeAssetThumbnails = new List<AssetThumbnailElement>();
+
+		protected RectTransform _rectTransform;
+		public RectTransform rectTransform { get { return _rectTransform; } }
+
+		private void Awake()
+		{
+			_rectTransform = GetComponent<RectTransform>();
+		}
 		// Start is called before the first frame update
 		void Start()
 		{

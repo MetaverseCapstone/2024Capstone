@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssetQuickSlot : QuickSlot
+public class AssetItemCursor : MonoBehaviour
 {
-    AssetItem _targetAssetItem;
-    public AssetItem TargetAssetItem {  get { return _targetAssetItem; } }
+    // Start is called before the first frame update
     void Start()
     {
         

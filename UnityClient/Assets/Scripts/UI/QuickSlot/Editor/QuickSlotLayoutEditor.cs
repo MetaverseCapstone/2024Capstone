@@ -13,6 +13,5 @@ public class QuickSlotLayoutEditor : Editor
 		QuickSlotLayout quickSlotLayout = (QuickSlotLayout)target;
 
 		quickSlotLayout.AlignLayout();
-		Debug.Log("Test Layout");
 	}
 }

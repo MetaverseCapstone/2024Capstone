@@ -17,13 +17,11 @@ namespace WorldEditor
 
 		AssetCategory selectedCategory;
 
+		Del_VoidHandler HandleLayout;
+
 		int curDepth = 0;
 
-		// Start is called before the first frame update
-		void Start()
-		{
-
-		}
+		Coroutine layoutCoroutine;
 
 		public void SetCategory(AssetCategory[] _assetCategories)
 		{
@@ -32,7 +30,6 @@ namespace WorldEditor
 
 		public void RequireChildCategory(int depth, AssetCategory[] assetCategories )
 		{
-			Debug.Log("[Test] " + depth + " " + (assetCategories != null ? assetCategories.Length : "null"));
 
 			int activeDepth = depth;
 			if (assetCategories != null && assetCategories.Length > 0)
@@ -54,8 +51,6 @@ namespace WorldEditor
 				activeDepth -= 1;
 			}
 
-			
-
 			for (int i = 0; i < assetDropBoxes.Length; i++)
 			{
 				if (i <= activeDepth)
@@ -66,9 +61,22 @@ namespace WorldEditor
 				{
 					assetDropBoxes[i].SetActive(false);
 				}
-			} 
+			}
+			
+			if (layoutCoroutine != null) StopCoroutine(layoutCoroutine);
+			layoutCoroutine = StartCoroutine(ForceAlignLayout());
+		}
 
+		IEnumerator ForceAlignLayout()
+		{
 			LayoutRebuilder.ForceRebuildLayoutImmediate(_container);
+			yield return null;
+			HandleLayout();
+		}
+
+		public void AddLayoutHandler(Del_VoidHandler handle)
+		{
+			HandleLayout += handle;
 		}
 
 		public void ClearChildCategory(int curDepth)
@@ -86,44 +94,6 @@ namespace WorldEditor
 				}
 			}
 		}
-
-		//public void AlignCategoryContainer()
-		//{
-		//	// 선택한 카테고리의 Depth 알아내기
-		//	if (selectedCategory == null) return;
-		//	int depth = 0;
-		//	do
-		//	{
-		//		depth++;
-		//	} while(selectedCategory.parentAssetCategory != null);
-
-		//	// Depth 크기만큼 DropBox 생성
-		//	if (assetDropBoxes == null || assetDropBoxes.Length < depth )
-		//	{
-		//		AssetCategoryDropBox[] newArray = new AssetCategoryDropBox[depth];
-		//		if(assetDropBoxes != null)
-		//		{
-		//			Array.Copy(assetDropBoxes, newArray, assetDropBoxes.Length);
-		//			for(int i = assetDropBoxes.Length -1; i < depth; i++)
-		//			{
-		//				newArray[i] = Instantiate(assetDropBoxPrefab, container);
-		//			}
-		//		}
-		//	}
-
-		//	for(int i = 0;i<assetDropBoxes.Length;i++)
-		//	{
-		//		if(i<depth)
-		//		{
-		//			assetDropBoxes[i].SetActive(true);
-		//			/////////
-		//		}
-		//              else
-		//              {
-		//			assetDropBoxes[i].SetActive(false);
-		//              }
-		//          }
-		//}
 
 	}
 }
