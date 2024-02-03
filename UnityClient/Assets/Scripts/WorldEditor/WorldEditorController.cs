@@ -5,9 +5,10 @@ namespace WorldEditor
 	public class WorldEditorController : MonoBehaviour
 	{
 
-		//////////// 임시
-
+		//s: 임시
 		public TextAsset textAsset;
+
+		//e: 임시
 
 		[SerializeField] private AssetSelectorWindow _assetSelectorWindow;
 		public AssetSelectorWindow AssetSelectorWindow
@@ -53,6 +54,7 @@ namespace WorldEditor
 		{
 
 		}
+
 	}
 }
 

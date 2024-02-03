@@ -1020,6 +1020,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assetThumbnailElementPrefab: {fileID: 8731579764414437640, guid: f89328160e9c05f41b6e146e5a5b1d42, type: 3}
   contentContainer: {fileID: 932749684}
+  assetItems: []
+  scrollRect: {fileID: 894999122}
+  thumbnailLongPressDuration: 1
 --- !u!1 &932749683
 GameObject:
   m_ObjectHideFlags: 0
