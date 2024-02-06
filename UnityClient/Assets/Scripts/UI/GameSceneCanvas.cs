@@ -11,6 +11,7 @@ public class GameSceneCanvas : MonoBehaviour
 {
 
     public TcpPopup tcpPopup;
+    public UploadPopup uploadPopup;
     public TcpClient socket;
 
     private string ip = "192.168.50.140";
@@ -39,6 +40,16 @@ public class GameSceneCanvas : MonoBehaviour
             this.tcpPopup.Open();
             popup = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            this.uploadPopup.closeBtn.onClick.AddListener(() =>
+            {
+                this.uploadPopup.Close();
+            });
+            this.uploadPopup.Open();
+        }
+
     }
 
     public void ConnectToTcpServer()
