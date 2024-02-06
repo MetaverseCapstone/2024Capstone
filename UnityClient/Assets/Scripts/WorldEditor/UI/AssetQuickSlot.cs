@@ -21,7 +21,7 @@ namespace WorldEditor
 			if (item != null && item != targetAssetItem)
 			{
 
-				var prevQuickSlot = Array.Find(layout.QuickSlots, element => element.targetAssetItem == item && element != this);
+				var prevQuickSlot = Array.Find(layout.QuickSlots, element => element != this && element.targetAssetItem != null && element.targetAssetItem == item);
 
 				if(prevQuickSlot != null)
 				{

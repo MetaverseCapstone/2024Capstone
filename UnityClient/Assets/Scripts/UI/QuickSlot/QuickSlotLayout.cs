@@ -35,6 +35,7 @@ public abstract class QuickSlotLayoutBase : MonoBehaviour
 	}
 }
 
+[ExecuteInEditMode]
 public class QuickSlotLayout<SlotType> : QuickSlotLayoutBase where SlotType : QuickSlot
 {
 
@@ -74,5 +75,12 @@ public class QuickSlotLayout<SlotType> : QuickSlotLayoutBase where SlotType : Qu
 		rectTransform.sizeDelta = new Vector2(preferWidth, preferHeight);
 
 	}
+
+#if UNITY_EDITOR
+	private void Update()
+	{
+		AlignLayout();
+	}
+#endif
 
 }
