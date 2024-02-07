@@ -39,17 +39,18 @@ namespace WorldEditor
 			return prevX;
 		}
 
-		private void Start()
-		{
-			InitSlots();
-		}
-
 		private void InitSlots()
 		{
 			for(int i =0;i<quickSlots.Length;i++)
 			{
 				quickSlots[i].SetSlotLayout(this);
 			}
+		}
+
+		public override void AlignLayout()
+		{
+			base.AlignLayout();
+			InitSlots();
 		}
 	}
 }

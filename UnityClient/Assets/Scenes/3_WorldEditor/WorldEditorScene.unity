@@ -565,8 +565,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 250, y: 0}
+  m_SizeDelta: {x: 460, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &616014248
 MonoBehaviour:
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   contentContainer: {fileID: 932749684}
   assetItems: []
   scrollRect: {fileID: 894999122}
-  thumbnailLongPressDuration: 1
+  thumbnailLongPressDuration: 0.2
 --- !u!1 &932749683
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,7 +2287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 240.38501, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1353179516
@@ -2436,8 +2436,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 230, y: 0}
+  m_SizeDelta: {x: 430, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1427790099
 MonoBehaviour:
@@ -3086,7 +3086,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 66.265, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113061224
@@ -3208,6 +3208,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1305906433}
     m_Modifications:
+    - target: {fileID: 1355273393646147047, guid: bf4a9fd6d98a6084db1953bacde72133, type: 3}
+      propertyPath: quickSlots.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355273393646147047, guid: bf4a9fd6d98a6084db1953bacde72133, type: 3}
+      propertyPath: quickSlots.Array.data[0]
+      value: 
+      objectReference: {fileID: 593981372}
+    - target: {fileID: 1355273393646147047, guid: bf4a9fd6d98a6084db1953bacde72133, type: 3}
+      propertyPath: quickSlots.Array.data[1]
+      value: 
+      objectReference: {fileID: 1011549118}
+    - target: {fileID: 1355273393646147047, guid: bf4a9fd6d98a6084db1953bacde72133, type: 3}
+      propertyPath: quickSlots.Array.data[2]
+      value: 
+      objectReference: {fileID: 808082297}
+    - target: {fileID: 1355273393646147047, guid: bf4a9fd6d98a6084db1953bacde72133, type: 3}
+      propertyPath: quickSlots.Array.data[3]
+      value: 
+      objectReference: {fileID: 1050325232}
     - target: {fileID: 7147756595946781667, guid: bf4a9fd6d98a6084db1953bacde72133, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
