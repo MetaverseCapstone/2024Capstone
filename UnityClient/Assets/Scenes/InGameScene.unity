@@ -1253,6 +1253,7 @@ GameObject:
   - component: {fileID: 672483148}
   - component: {fileID: 672483150}
   - component: {fileID: 672483149}
+  - component: {fileID: 672483151}
   m_Layer: 5
   m_Name: UploadPanel
   m_TagString: Untagged
@@ -1319,6 +1320,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672483147}
   m_CullTransparentMesh: 1
+--- !u!114 &672483151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672483147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a42ce68ac0aba4a841e5bbcc91fb0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeBtn: {fileID: 0}
+  imgUploadBtn: {fileID: 0}
+  modelUploadBtn: {fileID: 0}
+  gameSceneCanvas: {fileID: 0}
 --- !u!1 &688740297
 GameObject:
   m_ObjectHideFlags: 0
@@ -2845,6 +2862,7 @@ GameObject:
   - component: {fileID: 1221163977}
   - component: {fileID: 1221163976}
   - component: {fileID: 1221163975}
+  - component: {fileID: 1221163979}
   m_Layer: 5
   m_Name: PopupCanvas
   m_TagString: Untagged
@@ -2936,6 +2954,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1221163979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221163974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a9f191a95a19a45a4b6980ea8e43b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tcpPopup: {fileID: 1322038094}
+  uploadPopup: {fileID: 672483151}
 --- !u!1 &1315289222
 GameObject:
   m_ObjectHideFlags: 0

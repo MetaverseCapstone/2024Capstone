@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Windows.Forms;
@@ -7,14 +8,17 @@ using Ookii.Dialogs;
 
 public class UploadPopup : MonoBehaviour
 {
-    public Button closeBtn;
+    public UnityEngine.UI.Button closeBtn;
 
-    public Button imgUploadBtn;
-    public Button modelUploadBtn;
+    public UnityEngine.UI.Button imgUploadBtn;
+    public UnityEngine.UI.Button modelUploadBtn;
 
     public GameSceneCanvas gameSceneCanvas;
 
+    VistaOpenFileDialog dialog;
+    Stream openStream = null;
 
+    FileType fileType;
 
 
     // Start is called before the first frame update
@@ -41,13 +45,42 @@ public class UploadPopup : MonoBehaviour
 
     public void OnClickImgUpload()
     {
-        VistaOpenFileDialog dialog = new VistaOpenFileDialog();
-        dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
+        fileType = FileType.Image;
+        
 
     }
 
     public void OnClickModelUpload()
     {
-
+        fileType = FileType.Model;
     }
+
+
+    enum FileType
+    {
+        Image,
+        Model
+    }
+
+    /*
+    private string OpenFile()
+    {
+        dialog = new VistaOpenFileDialog();
+
+        if (fileType == FileType.Image)
+        {
+            dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
+        }
+        else if (fileType == FileType.Model)
+        {
+            dialog.Filter = "glb files (*.glb)|*.glb";
+        }
+
+        
+        dialog.FilterIndex = 0;
+        dialog.Title = "Select File";
+    }
+    */
+
+
 }

@@ -17,8 +17,7 @@ public class ObjectCRUD : MonoBehaviour
     string gltfServer = "localhost:2002/"; // gtlf 서버 주소
     string localDirectory = "testDatas";
 
-    bool isLoaded = false;
-    bool hasOriginal = false;
+    
 
     Camera cam;
     Vector3 ScreenCenter;
@@ -127,6 +126,8 @@ public class ObjectCRUD : MonoBehaviour
 
     async void LoadGltfModel(string filename)
     {
+        bool isLoaded = false;
+        bool hasOriginal = false;
         string fullFilePath = Path.Combine(Application.persistentDataPath, localDirectory, filename);
 
         if (map.transform.Find(filename) != null) // 이미 게임에 불러와져있을때
@@ -142,13 +143,13 @@ public class ObjectCRUD : MonoBehaviour
             else // 게임에도 없고 파일로도 없을때
             {
                 StartCoroutine(DownGltfModel(filename)); // 파일 다운 시작
+                isLoaded = true;
             }
         }
 
         if (hasOriginal)
         {
             onMyHand = map.transform.Find(filename).gameObject;
-            hasOriginal = false;
         }
         else if (isLoaded)
         {
@@ -189,7 +190,6 @@ public class ObjectCRUD : MonoBehaviour
             {
                 Debug.Log("Failed to Load Asset");
             }
-            isLoaded = false;
         }
     }
 
@@ -208,7 +208,6 @@ public class ObjectCRUD : MonoBehaviour
             fs.Close();
 
             Debug.Log("Asset Down Success : " + fullPath);
-            isLoaded = true;
         }
         else
         {

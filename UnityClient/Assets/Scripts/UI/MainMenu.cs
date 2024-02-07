@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickStart()
     {
+        SceneManager.LoadScene("InGameScene");
         Debug.Log("Start Clicked");
     }
 
