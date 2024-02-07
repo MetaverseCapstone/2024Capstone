@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace WorldEditor
 {
-	public class AssetQuickSlot : QuickSlot, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+	public class AssetQuickSlot : QuickSlot, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 	{
 		AssetItem targetAssetItem;
 		public AssetItem TargetAssetItem { get { return targetAssetItem; } }
@@ -64,6 +64,11 @@ namespace WorldEditor
 		public void SetSlotLayout(AssetQuickSlotLayout _layout)
 		{
 			layout = _layout;
+		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			layout.SetSelectedSlot(this);
 		}
 	}
 }

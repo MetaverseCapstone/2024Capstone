@@ -19,8 +19,8 @@ public abstract class QuickSlotLayoutBase : MonoBehaviour
 		set { _slotSize = value; AlignLayout(); }
 	}
 
-	protected RectTransform _rectTransform;
-	public RectTransform rectTransform { get { if (_rectTransform == null) _rectTransform = GetComponent<RectTransform>(); return _rectTransform; } }
+	[SerializeField] protected RectTransform slotContainer;
+	public RectTransform SlotContainer { get { return slotContainer; } }
 
 
 	public abstract void AlignLayout();
@@ -50,14 +50,14 @@ public class QuickSlotLayout<SlotType> : QuickSlotLayoutBase where SlotType : Qu
 		float slotX = 0;
 		float preferHeight = _slotSize.y;
 
-		int childCount = transform.childCount;
+		int childCount = slotContainer.transform.childCount;
 
 		if (quickSlots == null || quickSlots.Length != childCount)
 		{
 			quickSlots = new SlotType[childCount];
 			for (int i = 0; i < childCount; i++)
 			{
-				quickSlots[i] = transform.GetChild(i).GetComponent<SlotType>();
+				quickSlots[i] = slotContainer.transform.GetChild(i).GetComponent<SlotType>();
 			}
 		}
 
@@ -72,7 +72,7 @@ public class QuickSlotLayout<SlotType> : QuickSlotLayoutBase where SlotType : Qu
 		}
 		preferWidth -= _space;
 
-		rectTransform.sizeDelta = new Vector2(preferWidth, preferHeight);
+		slotContainer.sizeDelta = new Vector2(preferWidth, preferHeight);
 
 	}
 

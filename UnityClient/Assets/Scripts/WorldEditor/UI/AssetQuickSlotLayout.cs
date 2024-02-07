@@ -7,36 +7,18 @@ namespace WorldEditor
 {
 	public class AssetQuickSlotLayout : QuickSlotLayout<AssetQuickSlot>
 	{
-		[SerializeField] protected float _rightSpace;
 
-		public float rightSpace
-		{
-			get { return _rightSpace; }
-			set { _rightSpace = value; AlignLayout(); }
-		}
+		protected AssetQuickSlot selectedSlot = null;
 
-		public QuickSlot RightQuickSlot
-		{
-			get { return quickSlots.Last(); }
-		}
+		[SerializeField] protected RectTransform highlightFrame;
+		[SerializeField] protected Vector2 additionalFrameSize;
 
-		protected override float GetPrefeWidth(float prevWidth, int curIndex)
+		public AssetItem SelectedAsset
 		{
-			if (curIndex < quickSlots.Length - 1)
+			get
 			{
-				return prevWidth + _slotSize.x + _space;
+				return selectedSlot?.TargetAssetItem ?? null;
 			}
-
-			return prevWidth;
-		}
-		protected override float GetSlotX(float prevX, int curIndex)
-		{
-			if (curIndex < quickSlots.Length - 1)
-			{
-				return prevX + _slotSize.x + (curIndex == quickSlots.Length - 2 ? _rightSpace : _space);
-			}
-
-			return prevX;
 		}
 
 		private void InitSlots()
@@ -45,6 +27,8 @@ namespace WorldEditor
 			{
 				quickSlots[i].SetSlotLayout(this);
 			}
+			SetSelectedSlot(selectedSlot);
+			InitHighlightFrame();
 		}
 
 		public override void AlignLayout()
@@ -52,6 +36,27 @@ namespace WorldEditor
 			base.AlignLayout();
 			InitSlots();
 		}
+
+		protected void InitHighlightFrame()
+		{
+			highlightFrame.sizeDelta = slotSize + additionalFrameSize;
+		}
+
+		public void SetSelectedSlot(AssetQuickSlot _selectedSlot)
+		{
+			selectedSlot = _selectedSlot;
+
+			highlightFrame.gameObject.SetActive(selectedSlot != null);
+			if (selectedSlot != null)
+			{
+				highlightFrame.SetParent(selectedSlot.transform);
+				highlightFrame.anchoredPosition = Vector2.zero;
+			}
+		}
+
+
+
+
 	}
 }
 
