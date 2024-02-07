@@ -1,1 +1,1 @@
-export { default } from 'src/feature/login/LoginScreen';
+export { default } from 'src/feature/main/MainScreen';

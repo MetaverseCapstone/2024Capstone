@@ -1,4 +1,4 @@
-import { appContentWidth, yoksuriBlue } from 'src/util/constants/style';
+import { appContentWidth, fenxyBlue } from 'src/util/constants/style';
 import { Flex, FlexCenter, FlexRow } from '../styledComponents';
 import { useMainFooter } from './hooks/useMainFooter';
 

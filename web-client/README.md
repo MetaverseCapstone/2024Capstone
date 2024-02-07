@@ -4,6 +4,7 @@
 
 ## 실행방법
 cd \web-client\
+npm install #설정된 pacakge 다운
 npm run dev
 
 node 버전은 v20.11.0로 권장

@@ -1,3 +1,4 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -22,10 +23,10 @@ interface HookMember {
 }
 
 export function useLoginScreen(): HookMember {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch<any>>();
   const router = useRouter();
 
-  const token = useTypedSelector((state) => state.account.token);
+  const userType = useTypedSelector((state) => state.account.user?.userType);
 
   const {data:testServer} = useGetTestQuery();
 
@@ -41,10 +42,12 @@ export function useLoginScreen(): HookMember {
   }, [testServer]);
 
   useEffect(() => {
-    if (token) {
+    if (userType === 'ADMIN') {
+      router.push('/admin');
+    } else if(userType) {
       router.push('/');
     }
-  }, [token]);
+  }, [userType]);
 
   const onChangeLoginData = (type: 'loginId' | 'loginPw', value: string) => {
     let clone = { ...loginData };
@@ -54,7 +57,7 @@ export function useLoginScreen(): HookMember {
 
   const onClickLogin = () => {
     // id,pw를 가져오고 슬라이스의 로그인으로 넘김
-    // dispatch(accountSlice.login(loginData));
+    dispatch(accountSlice.login(loginData));
   };
 
   return {

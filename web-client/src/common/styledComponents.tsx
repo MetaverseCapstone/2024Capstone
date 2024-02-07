@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { calculateProvidedBy } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
-import { appContentWidth, yoksuriWhite } from 'src/util/constants/style';
+import { appContentWidth, fenxyWhite } from 'src/util/constants/style';
 
 export const Flex = styled.div({
   display: 'flex',
@@ -39,13 +39,13 @@ export const Grid = styled.div({
 export const ShadowBox = styled(FlexCenter)({
   filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.1))',
   borderRadius: 4,
-  backgroundColor: yoksuriWhite,
+  backgroundColor: fenxyWhite,
 });
 
 export const ShadowBoxRow = styled(FlexRowCenter)({
   filter: 'drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.1))',
   borderRadius: 4,
-  backgroundColor: yoksuriWhite,
+  backgroundColor: fenxyWhite,
 });
 
 export const FooterLayout = styled(FlexRowCenter)`
