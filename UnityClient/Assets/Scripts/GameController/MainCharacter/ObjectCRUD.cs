@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using GLTFast;
 using System.Collections;
 using System.IO;
