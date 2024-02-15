@@ -161,7 +161,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\psbsa\\Documents\\junseo\\capstone2024\\web-server\\prisma\\basic",
+      "value": "C:\\hyerim\\git\\2024Capstone\\web-server\\prisma\\basic",
       "fromEnvVar": null
     },
     "config": {
