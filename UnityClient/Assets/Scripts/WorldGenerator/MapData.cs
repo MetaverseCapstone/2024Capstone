@@ -27,7 +27,7 @@ namespace Assets.Script
 	public class MapObject
 	{
 		public int obj_id;
-		private int ast_id;
+		public int ast_id;
 		public Position position;
 		public Rotation rotation;
 		public Scale scale;
@@ -37,24 +37,24 @@ namespace Assets.Script
 	[System.Serializable]
 	public class Position
 	{
-		public int x;
-		public int y;
-		public int z;
+		public float x;
+		public float y;
+		public float z;
 	}
 
 	[System.Serializable]
 	public class Rotation
 	{
-		public int x;
-		public int y;
-		public int z;
+		public float x;
+		public float y;
+		public float z;
 	}
 
 	[System.Serializable]
 	public class Scale
 	{
-		public int x;
-		public int y;
-		public int z;
+		public float x;
+		public float y;
+		public float z;
 	}
 }

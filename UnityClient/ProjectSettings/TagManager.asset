@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - Camera
+  - Light
+  - Tile
   layers:
   - Default
   - TransparentFX
