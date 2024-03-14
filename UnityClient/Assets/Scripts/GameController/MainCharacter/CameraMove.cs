@@ -4,37 +4,45 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    float sensitivity;
-    float rotationY;
+	public float sensitivity = 200f; // 마우스 민감도
+	float rotationX;
+	float rotationY;
 
-    bool cursorLock = false;
+    bool cursorLock = true;
 
     GameObject parentCharacter;
+    CharacterMove characterMove;
 
     private void Awake()
     {
         // 부모 객체 (캐릭터) 가져오기
-        parentCharacter = Camera.main.transform.parent.gameObject;
-        // 캐릭터의 sensitivity를 그대로 가져옴
-        sensitivity = parentCharacter.GetComponent<CharacterMove>().sensitivity;
-    }
+        parentCharacter = this.transform.parent.gameObject;
+		// 캐릭터의 sensitivity를 그대로 가져옴
+		characterMove = parentCharacter.GetComponent<CharacterMove>();
+	}
 
     void Start()
     {
-        
-    }
+		CursorOnOff(true);
+	}
 
     void Update()
     {
-        CameraRotationY();
+        if(cursorLock)
+        {
+			CameraRotationY();
+			CameraRotationX();
+		}
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            CursorOnOff();
+            CursorOnOff(!cursorLock);
         }
     }
 
     void CameraRotationY()
     {
+
         float mouseY = Input.GetAxis("Mouse Y");
 
         rotationY += mouseY * sensitivity * Time.deltaTime;
@@ -42,27 +50,35 @@ public class CameraMove : MonoBehaviour
         Vector3 parentAngle = parentCharacter.transform.eulerAngles;
 
         // 카메라를 위, 아래로 회전시킬 때 제한을 설정
-        rotationY = rotationY > 35f ? 35f : rotationY;
-        rotationY = rotationY < -30f ? -30f : rotationY;
+        rotationY = rotationY > 89f ? 89f : rotationY;
+        rotationY = rotationY < -89f ? -89f : rotationY;
 
         transform.eulerAngles = new Vector3(-rotationY, parentAngle.y, 0);
     }
 
-    void CursorOnOff()
+	void CameraRotationX()
+	{
+		float mouseX = Input.GetAxis("Mouse X");
+
+		rotationX += mouseX * sensitivity * Time.deltaTime;
+
+        characterMove.CharacterRotationX(rotationX);
+	}
+
+	void CursorOnOff(bool _cursorLock)
     {
         // cursor on -> off
-        if (cursorLock)
+        if (_cursorLock)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = false;
-        }
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
         // cursor off -> on
-        else if (!cursorLock)
+        else
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            cursorLock = true;
-        }
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+		}
+        cursorLock = _cursorLock;
     }
 }
