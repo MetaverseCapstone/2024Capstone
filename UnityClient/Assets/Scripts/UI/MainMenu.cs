@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public LoginPopup loginPopup;
+    public UploadPopup uploadPopup;
 
     // Start is called before the first frame update
     void Start()
@@ -51,5 +52,13 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Profile Clicked");
     }
 
+    public void OnClickUpload()
+    {
+        this.uploadPopup.closeBtn.onClick.AddListener(() =>
+        {
+            this.uploadPopup.Close();
+        });
+        this.uploadPopup.Open();
+    }
 
 }

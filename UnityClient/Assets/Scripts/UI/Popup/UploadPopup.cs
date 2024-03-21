@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Windows.Forms;
 using Ookii.Dialogs;
+using TMPro;
 
 public class UploadPopup : MonoBehaviour
 {
@@ -15,16 +16,19 @@ public class UploadPopup : MonoBehaviour
 
     public GameSceneCanvas gameSceneCanvas;
 
+    public TMP_Text stateTxt;
+
     VistaOpenFileDialog dialog;
     Stream openStream = null;
 
-    FileType fileType;
+    Texture2D image;
+    byte[] modelFile; 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        dialog = new VistaOpenFileDialog();
     }
 
     // Update is called once per frame
@@ -45,14 +49,20 @@ public class UploadPopup : MonoBehaviour
 
     public void OnClickImgUpload()
     {
-        fileType = FileType.Image;
-        
+        if (OpenFile((int) FileType.Image) != null)
+        {
+
+        }
 
     }
 
     public void OnClickModelUpload()
     {
-        fileType = FileType.Model;
+        if (OpenFile((int) FileType.Model) != null)
+        {
+
+        }
+
     }
 
 
@@ -62,25 +72,36 @@ public class UploadPopup : MonoBehaviour
         Model
     }
 
-    /*
-    private string OpenFile()
+    
+    private string OpenFile(int fileType)
     {
-        dialog = new VistaOpenFileDialog();
 
-        if (fileType == FileType.Image)
+        if (fileType == (int) FileType.Image)
         {
             dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
+            dialog.Title = "Select Image File";
+
         }
-        else if (fileType == FileType.Model)
+        else if (fileType == (int) FileType.Model)
         {
             dialog.Filter = "glb files (*.glb)|*.glb";
+            dialog.Title = "Select 3D Model File";
         }
 
-        
+
         dialog.FilterIndex = 0;
-        dialog.Title = "Select File";
+
+        if (dialog.ShowDialog() == DialogResult.OK)
+        {
+            if((openStream = dialog.OpenFile()) != null)
+            {
+                return dialog.FileName;
+            }
+        }
+
+        return null;
     }
-    */
+    
 
 
 }
