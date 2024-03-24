@@ -14,7 +14,7 @@ public class CameraMove : MonoBehaviour
     private void Awake()
     {
         // 부모 객체 (캐릭터) 가져오기
-        parentCharacter = this.transform.parent.gameObject;
+        parentCharacter = Camera.main.transform.parent.gameObject;
         // 캐릭터의 sensitivity를 그대로 가져옴
         sensitivity = parentCharacter.GetComponent<CharacterMove>().sensitivity;
     }

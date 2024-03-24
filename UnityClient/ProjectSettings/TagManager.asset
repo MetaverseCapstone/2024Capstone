@@ -8,6 +8,8 @@ TagManager:
   - Camera
   - Light
   - Tile
+  - Instance
+  - Object
   layers:
   - Default
   - TransparentFX

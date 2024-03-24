@@ -1,24 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Script
 {
 	[System.Serializable]
-	public class MapData
+	public class MapDataJson
 	{
-		private int mapId;
+		public int map_id;
 		public string mapName;
-		public Time mapCTime;
-		public MapSize mapSize;
-		public List<string> Tags;
-		public List<MapObject> objects;
+		public Time mapCTime = new Time();
+		public MapSize mapSize = new MapSize();
+		public List<string> Tags = new List<string>();
+		public List<MapObject> objects = new List<MapObject>();
 	}
 
 	[System.Serializable]
 	public class MapSize
 	{
-		public int width;
+		public int horizontal;
+		public int vertical;
 		public int height;
 	}
 
@@ -28,10 +28,19 @@ namespace Assets.Script
 	{
 		public int obj_id;
 		public int ast_id;
+		public Transform transform = new Transform();
+		public string type;
+		public bool rigidbody = false;
+		public bool meshcollider = false;
+	}
+
+
+	[System.Serializable]
+	public class Transform
+	{
 		public Position position;
 		public Rotation rotation;
 		public Scale scale;
-		public string type;
 	}
 
 	[System.Serializable]
