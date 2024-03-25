@@ -24,7 +24,7 @@ namespace WorldEditor
 		// Start is called before the first frame update
 		void Awake()
 		{
-			rectTransform = GetComponent<RectTransform>();
+			_rectTransform = GetComponent<RectTransform>();
 		}
 
 		public bool isActive { get { return gameObject.activeSelf; } }
