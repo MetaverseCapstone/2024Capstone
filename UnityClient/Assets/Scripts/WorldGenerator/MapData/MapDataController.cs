@@ -5,6 +5,7 @@ using Assets.Scripts.Clean;
 using System.Collections;
 using System.Linq;
 using System;
+using Assets.Scripts.Thread;
 
 public class MapDataController : MonoBehaviour
 {
@@ -12,14 +13,11 @@ public class MapDataController : MonoBehaviour
 	private MapToJson mapToJson;
 	public GameObject main; // 메인 오브젝트를 저장할 변수
 
-	public Gltf_Manager gltf_manager;
-
 	private void Start()
 	{
 
 		main = GameObject.FindWithTag("Player"); // "Player" 태그를 가진 오브젝트를 찾아 main 변수에 할당
 		mapToJson = main.GetComponent<MapToJson>(); // MapToJson 컴포넌트를 가져옴
-		gltf_manager = main.GetComponent<Gltf_Manager>(); // Gltf_Manager 컴포넌트를 가져옴
 		AssetThreadManager = main.GetComponent<Gltf_Thread_Manager>(); // Gltf_Thread_Manager 컴포넌트를 가져옴
 	}
 
@@ -163,7 +161,7 @@ public class MapDataController : MonoBehaviour
 
 			objectInstance.SetActive(true);
 
-			AssetThreadManager.LoadTaskInsert("test_user_id", mapObject.ast_id, objectInstance); // 에셋 쓰레드에 Task 부여
+			AssetThreadManager.LoadTaskInsert(new LoadTask("test_user_id", mapObject.ast_id, objectInstance)); // 에셋 쓰레드에 Task 부여
 			yield return null;
 		}
 	}

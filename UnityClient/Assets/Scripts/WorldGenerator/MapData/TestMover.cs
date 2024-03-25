@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Clean;
+using Assets.Scripts.Thread;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,7 +86,7 @@ namespace Assets.Scripts.WorldGenerator
 
 			copyObject.SetActive(true);
 
-			AssetThreadManager.LoadTaskInsert("test_user_id", onMyHand, copyObject); // 에셋 쓰레드에게 Task 부여
+			AssetThreadManager.LoadTaskInsert(new LoadTask("test_user_id", onMyHand, copyObject)); // 에셋 쓰레드에게 Task 부여
 
 			yield return null;
 		}

@@ -1,18 +1,14 @@
-﻿using Assets.Scripts.Clean;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.WorldGenerator.Thread;
 
 namespace Assets.Scripts.Thread
 {
-	public class AssetLoadThread : Gltf_Thread_Manager
+	public class AssetLoadThread : GltfThread
 	{
-		private Coroutine _coroutine;
+		protected List<LoadTask> LoadTasks = new List<LoadTask>();
 
-		public void Start()
-		{
-			ThreadStart(_coroutine, LoadTasks);
-		}
 
 		// 작업을 처리하는 메서드
 		protected override IEnumerator ProceedTask(LoadTask loadTask)
@@ -41,7 +37,7 @@ namespace Assets.Scripts.Thread
 				// 로드 성공한 경우
 				if (loadTask.Load_success)
 				{
-					WearTasks.Add(loadTask); // Wear 쓰레드에 해당 작업 부여
+					ThreadManager.Get_Thread(2).TaskInsert(loadTask); // Wear 쓰레드에 해당 작업 부여
 
 					Debug.Log("Asset Load Success && Push WearTasks	:" + loadTask.ast_id);
 				}
@@ -55,6 +51,11 @@ namespace Assets.Scripts.Thread
 			{
 				LoadTasks = new List<LoadTask>(); // Load 쓰레드의 작업 초기화
 			}
+		}
+
+		protected override void Set_Tasks()
+		{
+			Tasks = LoadTasks;
 		}
 	}
 }

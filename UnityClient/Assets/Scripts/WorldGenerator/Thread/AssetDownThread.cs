@@ -1,18 +1,13 @@
-﻿using Assets.Scripts.Clean;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.WorldGenerator.Thread;
 
 namespace Assets.Scripts.Thread
 {
-	public class AssetDownThread : Gltf_Thread_Manager
+	public class AssetDownThread : GltfThread
 	{
-		private Coroutine _coroutine;
-
-		public void Start()
-		{
-			ThreadStart(_coroutine, DownTasks);
-		}
+		private List<LoadTask> DownTasks = new List<LoadTask>();
 
 		// 작업을 처리하는 메서드
 		protected override IEnumerator ProceedTask(LoadTask downTask)
@@ -40,7 +35,7 @@ namespace Assets.Scripts.Thread
 				// 다운로드 성공한 경우
 				if (downTask.Down_success)
 				{
-					LoadTasks.Add(downTask); // Load 쓰레드에 해당 작업 부여
+					ThreadManager.Get_Thread(1).TaskInsert(downTask); // Load 쓰레드에 해당 작업 부여
 
 					Debug.Log("Asset Down Success && Push LoadTasks	:" + downTask.ast_id);
 				}
@@ -54,6 +49,11 @@ namespace Assets.Scripts.Thread
 			{
 				DownTasks = new List<LoadTask>(); // Down 쓰레드의 작업 초기화
 			}
+		}
+
+		protected override void Set_Tasks()
+		{
+			Tasks = DownTasks;
 		}
 	}
 }

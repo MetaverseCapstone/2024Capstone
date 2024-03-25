@@ -1,18 +1,13 @@
-﻿using Assets.Scripts.Clean;
+﻿using Assets.Scripts.WorldGenerator.Thread;
 using System.Collections;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Thread
 {
-	public class AssetEndThread : Gltf_Thread_Manager
+	public class AssetEndThread : GltfThread
 	{
-		private Coroutine _coroutine;
-
-		public void Start()
-		{
-			ThreadStart(_coroutine, EndTasks);
-		}
-
+		protected List<LoadTask> EndTasks = new List<LoadTask>();
+	
 		// 작업을 처리하는 메서드
 		protected override IEnumerator ProceedTask(LoadTask endTask)
 		{
@@ -24,9 +19,14 @@ namespace Assets.Scripts.Thread
 			else
 			{
 				endTask.TaskInit(); // 작업 초기화
-				DownTasks.Add(endTask); // 작업 재시도
+				ThreadManager.Get_Thread(0).TaskInsert(endTask); // 작업 재시도
 			}
 			yield return null;
+		}
+
+		protected override void Set_Tasks()
+		{
+			Tasks = EndTasks;
 		}
 	}
 }

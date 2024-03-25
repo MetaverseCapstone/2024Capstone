@@ -11,7 +11,6 @@ namespace Assets.Scripts.Clean
 	public class Gltf_Manager : MonoBehaviour
 	{
 		protected static Dictionary<int, byte[]> glb_data;
-		protected List<List<LoadTask>> loadTasks;
 
 		protected static string gltfServer = "localhost:2002/"; // gtlf 서버 주소
 		protected static string localDirectory = "testDatas";
