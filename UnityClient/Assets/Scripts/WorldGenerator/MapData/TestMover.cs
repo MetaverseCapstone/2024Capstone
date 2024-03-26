@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Clean;
-using Assets.Scripts.Thread;
+using Assets.Scripts.Routine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +8,7 @@ namespace Assets.Scripts.WorldGenerator
 {
 	public class TestMover : MonoBehaviour
 	{
-		private Gltf_Thread_Manager AssetThreadManager;
+		private Gltf_Routine_Manager AssetRoutineManager;
 		public GameObject map;
 		public GameObject main;
 		public GameObject copyObject;
@@ -45,9 +45,9 @@ namespace Assets.Scripts.WorldGenerator
 			}
 			if (Input.GetMouseButtonDown(1))
 			{
-				if (AssetThreadManager == null)
+				if (AssetRoutineManager == null)
 				{
-					AssetThreadManager = main.GetComponent<Gltf_Thread_Manager>();
+					AssetRoutineManager = main.GetComponent<Gltf_Routine_Manager>();
 				}
 				StartCoroutine(CreateObject());
 			}
@@ -86,7 +86,7 @@ namespace Assets.Scripts.WorldGenerator
 
 			copyObject.SetActive(true);
 
-			AssetThreadManager.LoadTaskInsert(new LoadTask("test_user_id", onMyHand, copyObject)); // 에셋 쓰레드에게 Task 부여
+			AssetRoutineManager.LoadTaskInsert(new LoadTask("test_user_id", onMyHand, copyObject)); // 에셋 Routine에게 Task 부여
 
 			yield return null;
 		}

@@ -1,9 +1,9 @@
 ﻿using GLTFast;
 using UnityEngine;
 
-namespace Assets.Scripts.Thread
+namespace Assets.Scripts.Routine
 {
-	// 쓰레드에게 부여되는 Task의 정보가 담겨 있는 클래스
+	// Routine에게 부여되는 Task의 정보가 담겨 있는 클래스
 	public class LoadTask
 	{
 		public string user_id;

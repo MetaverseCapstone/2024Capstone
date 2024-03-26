@@ -22,7 +22,6 @@ namespace Assets.Script
 		public int height;
 	}
 
-
 	[System.Serializable]
 	public class MapObject
 	{
@@ -33,7 +32,6 @@ namespace Assets.Script
 		public bool rigidbody = false;
 		public bool meshcollider = false;
 	}
-
 
 	[System.Serializable]
 	public class Transform

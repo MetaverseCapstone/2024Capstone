@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
-using Assets.Scripts.WorldGenerator.Thread;
+using Assets.Scripts.WorldGenerator.Routine;
 
-namespace Assets.Scripts.Thread
+namespace Assets.Scripts.Routine
 {
-	public class AssetWearThread : GltfThread
+	public class AssetWearRoutine : GltfRoutine
 	{
-		protected List<LoadTask> WearTasks = new List<LoadTask>();
+		protected Queue<LoadTask> WearTasks = new Queue<LoadTask>();
 
 
 		// 작업을 처리하는 메서드
@@ -23,11 +23,6 @@ namespace Assets.Scripts.Thread
 				if (wearTask.Fail_Stop)
 				{
 					Debug.LogError("Asset Wear Fail or Cancel");
-					try
-					{
-						WearTasks.RemoveAt(0); // 에셋 적용 Task 삭제
-					}
-					catch { }
 				}
 			}
 
@@ -36,19 +31,14 @@ namespace Assets.Scripts.Thread
 				if (wearTask.Wear_success)
 				{
 					wearTask.All_success = true;
-					ThreadManager.Get_Thread(3).TaskInsert(wearTask); // End 쓰레드에 해당 작업 부여
+					RoutineManager.Get_Routine(3).TaskInsert(wearTask); // End Routine에 해당 작업 부여
 
 					Debug.Log("Asset Wear Success && Push EndTasks	:" + wearTask.ast_id);
 				}
-				try
-				{
-					WearTasks.RemoveAt(0); // Wear 쓰레드에서 해당 작업 삭제
-				}
-				catch { }
 			}
 			else // 리로드를 요청한 경우
 			{
-				WearTasks = new List<LoadTask>();
+				WearTasks.Clear(); // Wear Routine의 작업 초기화
 			}
 		}
 

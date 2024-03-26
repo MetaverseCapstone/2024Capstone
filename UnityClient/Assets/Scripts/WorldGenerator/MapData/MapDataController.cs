@@ -5,20 +5,19 @@ using Assets.Scripts.Clean;
 using System.Collections;
 using System.Linq;
 using System;
-using Assets.Scripts.Thread;
+using Assets.Scripts.Routine;
 
 public class MapDataController : MonoBehaviour
 {
-	private Gltf_Thread_Manager AssetThreadManager;
+	private Gltf_Routine_Manager AssetRoutineManager;
 	private MapToJson mapToJson;
 	public GameObject main; // 메인 오브젝트를 저장할 변수
 
 	private void Start()
 	{
-
 		main = GameObject.FindWithTag("Player"); // "Player" 태그를 가진 오브젝트를 찾아 main 변수에 할당
-		mapToJson = main.GetComponent<MapToJson>(); // MapToJson 컴포넌트를 가져옴
-		AssetThreadManager = main.GetComponent<Gltf_Thread_Manager>(); // Gltf_Thread_Manager 컴포넌트를 가져옴
+		mapToJson = main.AddComponent<MapToJson>(); // MapToJson 컴포넌트를 가져옴
+		AssetRoutineManager = main.GetComponent<Gltf_Routine_Manager>(); // Gltf_Routine_Manager 컴포넌트를 가져옴
 	}
 
 	private void Update()
@@ -29,7 +28,7 @@ public class MapDataController : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.M))
 		{
-			AssetThreadManager.ThreadInit(); // 에셋 쓰레드의 모든 작업을 취소
+			AssetRoutineManager.RoutineInit(); // 에셋 Routine의 모든 작업을 취소
 			MapLoad(); // 맵 불러오기
 		}
 
@@ -161,7 +160,7 @@ public class MapDataController : MonoBehaviour
 
 			objectInstance.SetActive(true);
 
-			AssetThreadManager.LoadTaskInsert(new LoadTask("test_user_id", mapObject.ast_id, objectInstance)); // 에셋 쓰레드에 Task 부여
+			AssetRoutineManager.LoadTaskInsert(new LoadTask("test_user_id", mapObject.ast_id, objectInstance)); // 에셋 Routine에 Task 부여
 			yield return null;
 		}
 	}

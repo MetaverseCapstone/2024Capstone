@@ -1,18 +1,18 @@
 ﻿using Assets.Scripts.Clean;
-using Assets.Scripts.Thread;
+using Assets.Scripts.Routine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Assets.Scripts.WorldGenerator.Thread
+namespace Assets.Scripts.WorldGenerator.Routine
 {
-	public class GltfThread : Gltf_Manager
+	public class GltfRoutine : Gltf_Manager
 	{
-		protected static Gltf_Thread_Manager ThreadManager;
+		protected static Gltf_Routine_Manager RoutineManager;
 
 		protected Coroutine _coroutine;
-		protected List<LoadTask> Tasks;
+		protected Queue<LoadTask> Tasks;
 		private static bool ReLoad = false;
 
 		public static void Set_Environment()
@@ -27,9 +27,9 @@ namespace Assets.Scripts.WorldGenerator.Thread
 			}
 		}
 
-		public static void Set_Thread_Manager(Gltf_Thread_Manager manager)
+		public static void Set_Routine_Manager(Gltf_Routine_Manager manager)
 		{
-			ThreadManager = manager;
+			RoutineManager = manager;
 		}
 
 		public static bool Get_ReLoad()
@@ -52,13 +52,13 @@ namespace Assets.Scripts.WorldGenerator.Thread
 			_coroutine = coroutine;
 		}
 
-		// 쓰레드에게 작업을 부여하는 템플릿 메서드
+		// Routine에게 작업을 부여하는 템플릿 메서드
 		public void TaskInsert(LoadTask task)
 		{
-			Tasks.Add(task);
+			Tasks.Enqueue(task);
 		}
 
-		// 쓰레드가 맡은 작업의 개수 반환하는 메서드
+		// Routine가 맡은 작업의 개수 반환하는 메서드
 		public int TaskCount()
 		{
 			return Tasks.Count;
@@ -71,11 +71,11 @@ namespace Assets.Scripts.WorldGenerator.Thread
 
 			while (Application.isPlaying)
 			{
-				yield return new WaitUntil(() => (Tasks.Count != 0)); // Task가 부여되기를 기다림
+				yield return new WaitUntil(() => (TaskCount() != 0)); // Task가 부여되기를 기다림
 
-				if (Tasks.Count != 0)
+				if (TaskCount() != 0)
 				{
-					LoadTask task = Tasks[0];
+					LoadTask task = Tasks.Dequeue();
 
 					yield return ProceedTask(task); // Task 수행
 				}
@@ -86,7 +86,7 @@ namespace Assets.Scripts.WorldGenerator.Thread
 		{
 		}
 
-		// 쓰레드의 작업 템플릿 메서드
+		// Routine의 작업 템플릿 메서드
 		protected virtual IEnumerator ProceedTask(LoadTask task)
 		{
 			yield return null;
