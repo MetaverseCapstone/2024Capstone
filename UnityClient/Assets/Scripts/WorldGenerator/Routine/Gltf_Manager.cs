@@ -123,6 +123,8 @@ namespace Assets.Scripts.Clean
 					{
 						wearCount = 0;
 						wearTask.Wear_success = true;
+
+						wearTask.gltfObj.MakeObjectSolid();
 					}
 					else
 					{
