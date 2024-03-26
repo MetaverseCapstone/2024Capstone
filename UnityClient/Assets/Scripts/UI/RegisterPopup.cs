@@ -14,6 +14,8 @@ public class UserInfo
 
 public class RegisterPopup : MonoBehaviour
 {
+    public HttpRequests httpRequests;
+
     public Button closeBtn;
     public TMP_InputField idField;
     public TMP_InputField emailField;
@@ -66,7 +68,7 @@ public class RegisterPopup : MonoBehaviour
 
 
         // ID 중복 검사를 위한 코루틴 생성 및 실행
-        StartCoroutine(RequestGet(url + duplicateIDUrl + id, (callback) =>
+        StartCoroutine(httpRequests.RequestGet(url + duplicateIDUrl + id, (callback) =>
         {
             Debug.Log("RequestGet Callback : " + callback);
             if (callback == "true")
@@ -83,46 +85,4 @@ public class RegisterPopup : MonoBehaviour
             }
         }));
     }
-
-
-    IEnumerator RequestPost(string url, string json, Action<string> callback)
-    {
-        using (UnityWebRequest request = UnityWebRequest.PostWwwForm(url, json))
-        {
-            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            yield return request.SendWebRequest();
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(request.error);
-            }
-            else
-            {
-                string result = request.downloadHandler.text;
-                Debug.Log("Request Text : " + result);
-                callback(result);
-            }
-        }
-    }
-
-    IEnumerator RequestGet(string url, Action<string> callback)
-    {
-        UnityWebRequest request = UnityWebRequest.Get(url);
-        // response가 올 때까지 턴 넘김
-        yield return request.SendWebRequest();
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(request.error);
-        }
-        else
-        {
-            // response의 내용을 callback에 넣음
-            string result = request.downloadHandler.text;
-            Debug.Log("Request Text : " + result);
-            callback(result);
-        }
-    }
-
 }
