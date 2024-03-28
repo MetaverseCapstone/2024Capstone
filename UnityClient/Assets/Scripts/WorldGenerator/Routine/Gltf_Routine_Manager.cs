@@ -75,9 +75,9 @@ namespace Assets.Scripts.Routine
 		public IEnumerator RoutineInit()
 		{
 			GltfRoutine.Set_ReLoad();
-			yield return new WaitUntil(() => AssetRoutines[0].TaskCount() == 0
-											&& AssetRoutines[0].TaskCount() == 0
-											&& AssetRoutines[0].TaskCount() == 0); // Routine의 모든 작업이 취소되기를 기다림
+			yield return new WaitUntil(() =>	AssetRoutines[0].TaskCount() == 0
+											&&	AssetRoutines[0].TaskCount() == 0
+											&&	AssetRoutines[0].TaskCount() == 0); // Routine의 모든 작업이 취소되기를 기다림
 		}
 
 		public void LoadTaskInsert(LoadTask task)

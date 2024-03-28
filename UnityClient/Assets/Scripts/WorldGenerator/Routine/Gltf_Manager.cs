@@ -125,12 +125,13 @@ namespace Assets.Scripts.Clean
 						wearTask.Wear_success = true;
 
 						wearTask.gltfObj.MakeObjectSolid();
+
 					}
 					else
 					{
 						wearCount++;
-						
-						if (wearCount == 5) // 에셋 적용 5번 실패한 경우
+
+                        if (wearCount == 5) // 에셋 적용 5번 실패한 경우
 						{
 							wearTask.Fail_Stop = true;
 							yield break;

@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Assets.Script
 {
 	[System.Serializable]
-	public class MapDataJson
+	public class MapData
 	{
 		public int map_id;
 		public string mapName;
-		public Time mapCTime = new Time();
+		public float mapCTime;
 		public MapSize mapSize = new MapSize();
 		public List<string> Tags = new List<string>();
-		public List<MapObject> objects = new List<MapObject>();
+		public int objCount;
 	}
 
 	[System.Serializable]
@@ -20,6 +20,14 @@ namespace Assets.Script
 		public int horizontal;
 		public int vertical;
 		public int height;
+	}
+
+
+	[System.Serializable]
+	public class ObjectData
+	{
+		public int map_id;
+		public List<MapObject> objects = new List<MapObject>();
 	}
 
 	[System.Serializable]
