@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using User.Script;
 
 
 public class LoginPopup : MonoBehaviour
@@ -39,6 +40,10 @@ public class LoginPopup : MonoBehaviour
     {
         msgTxt.gameObject.SetActive(false);
 
+        UserData userData = new UserData();
+        
+
+
         id = idField.text;
         pw = pwField.text;
 
@@ -48,11 +53,6 @@ public class LoginPopup : MonoBehaviour
     public void OnClickSignUp()
     {
         Debug.Log("Sign Up Clicked");
-        this.registerPopup.closeBtn.onClick.AddListener(() =>
-        {
-            this.registerPopup.Close();
-        });
-        this.registerPopup.Open();
     }
 
     public void OnClickForgot()
