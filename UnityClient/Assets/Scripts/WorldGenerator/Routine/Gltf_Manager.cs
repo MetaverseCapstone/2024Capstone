@@ -123,12 +123,14 @@ namespace Assets.Scripts.Clean
 					{
 						wearCount = 0;
 						wearTask.Wear_success = true;
+
+
 					}
 					else
 					{
 						wearCount++;
-						
-						if (wearCount == 5) // 에셋 적용 5번 실패한 경우
+
+                        if (wearCount == 5) // 에셋 적용 5번 실패한 경우
 						{
 							wearTask.Fail_Stop = true;
 							yield break;
