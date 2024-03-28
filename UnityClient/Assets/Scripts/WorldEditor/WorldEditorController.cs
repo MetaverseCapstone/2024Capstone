@@ -16,6 +16,12 @@ namespace WorldEditor
 			get { return _assetSelectorWindow; }
 		}
 
+		[SerializeField] private AssetQuickSlotLayout _assetQuickSlotLayout;
+		public AssetQuickSlotLayout AssetQuickSlotLayout
+		{
+			get { return _assetQuickSlotLayout; }
+		}
+
 		[SerializeField] AssetItemCursor assetItemCursor;
 		public AssetItemCursor AssetItemCursor { get { return assetItemCursor; } }
 
@@ -66,6 +72,14 @@ namespace WorldEditor
 		public void EndDragAssetItemCursor()
 		{
 			assetItemCursor.SetActive(false);
+		}
+
+		public AssetItem SelectedAsset
+		{
+			get
+			{
+				return _assetQuickSlotLayout.SelectedAsset;
+			}
 		}
 
 	}

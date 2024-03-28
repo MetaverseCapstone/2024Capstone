@@ -197,9 +197,8 @@ public class MapDataController : MonoBehaviour
 
 				objectInstance.SetActive(true);
 
-				AssetRoutineManager.LoadTaskInsert(new LoadTask("test_user_id", mapObject.ast_id, objectInstance)); // 에셋 Routine에 Task 부여
-				yield return null;
-			}
+			AssetRoutineManager.LoadTaskInsert(new LoadTask("test_user_id", mapObject.ast_id, asset)); // 에셋 Routine에 Task 부여
+			yield return null;
 		}
 	}
 

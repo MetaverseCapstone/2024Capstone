@@ -1,4 +1,5 @@
-﻿using GLTFast;
+﻿using Assets.Scripts.Clean;
+using GLTFast;
 using UnityEngine;
 
 namespace Assets.Scripts.Routine
@@ -8,7 +9,7 @@ namespace Assets.Scripts.Routine
 	{
 		public string user_id;
 		public int ast_id;
-		public GameObject gltfObj;
+		public AssetObject gltfObj;
 
 		public bool Down_success = false;
 		public bool Load_success = false;
@@ -20,7 +21,7 @@ namespace Assets.Scripts.Routine
 		public GltfImport gltfImport;
 
 
-		public LoadTask(string user_id, int ast_id, GameObject gltfObj)
+		public LoadTask(string user_id, int ast_id, AssetObject gltfObj)
 		{
 			this.user_id = user_id;
 			this.ast_id = ast_id;

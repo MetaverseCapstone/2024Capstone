@@ -86,7 +86,7 @@ namespace Assets.Scripts.WorldGenerator
 
 			copyObject.SetActive(true);
 
-			AssetRoutineManager.LoadTaskInsert(new LoadTask("test_user_id", onMyHand, copyObject)); // 에셋 Routine에게 Task 부여
+			AssetRoutineManager.LoadTaskInsert(new LoadTask("test_user_id", onMyHand, asset)); // 에셋 Routine에게 Task 부여
 
 			yield return null;
 		}

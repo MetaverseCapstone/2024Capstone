@@ -4,8 +4,6 @@ using UnityEngine.UI;
 public class CharacterMove : MonoBehaviour
 {
     public CharacterController characterController;
-
-    public float sensitivity = 200f; // 마우스 민감도
     public float moveSpeed = 10f; // 기본 이동속도
     public float jumpSpeed = 10f; // 점프 속도
     public float runSpeed = 2f; // 달리기 이동속도 배수
@@ -13,7 +11,6 @@ public class CharacterMove : MonoBehaviour
 
 
     float yVelocity = 0;
-    float rotationX;
 
     void Start()
     {
@@ -21,7 +18,6 @@ public class CharacterMove : MonoBehaviour
     void Update()
     {
         CharacterMoving();
-        CharacterRotationX();
     }
 
 
@@ -56,12 +52,8 @@ public class CharacterMove : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
-    void CharacterRotationX()
+    public void CharacterRotationX(float rotationX)
     {
-        float mouseX = Input.GetAxis("Mouse X");
-
-        rotationX += mouseX * sensitivity * Time.deltaTime;
-
         this.transform.eulerAngles = new Vector3(0, rotationX, 0);
     }
 
